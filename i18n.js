@@ -202,10 +202,11 @@ exports.middleware = function(options) {
     try {
       translations[locale] = parse_messages_file(locale);
     } catch (e) {
-      console.error(util.format(
+      var msg = util.format(
         'Bad locale=[%s] missing .json files in [%s]. See locale/README (%s)',
         locale, messages_file_path(locale), e
-      ));
+      );
+      console.error(msg);
       throw msg;
     }
   });
