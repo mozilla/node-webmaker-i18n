@@ -27,7 +27,7 @@ $ cd example
 $ node app.js
 ```
 
-Now navigate to http://localhost:8000
+Now navigate to http://localhost:8000.  You'll see examples of server-side and client-side usage.
 
 ## API
 
