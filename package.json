@@ -4,8 +4,7 @@
   "description": "Webmaker Localization Components for node.js and the browser",
   "main": "./lib/i18n.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "./node_modules/.bin/bower install"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
