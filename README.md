@@ -141,7 +141,6 @@ In both cases, the code assumes that the HTML page it lives in has language info
 
 ```javascript
 require(['path/to/localized'], function(localized) {
-
   // Don't do anything until the DOM + localized strings are ready
   localized.ready(function(){
     var someText = localized.get('some key');
