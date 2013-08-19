@@ -1,8 +1,8 @@
 {
   "name": "webmaker-i18n",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Webmaker Localization Components for node.js and the browser",
-  "main": "./lib/i18n.js",
+  "main": "./i18n.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,11 +13,6 @@
   "keywords": [
     "webmaker"
   ],
-  "devDependencies": {
-    "express": "~3.2.0",
-    "bower": "~1.0.0",
-    "nunjucks": "git://github.com/jlongster/nunjucks.git#0fc9622f3471d67058e431f765bc45d928d23a61"
-  },
   "author": "The Webmaker Team <webmaker-dev@mozilla.org>",
   "license": "MPL-2.0"
 }

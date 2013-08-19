@@ -23,6 +23,10 @@ app.use( i18n.middleware({
   translation_directory: path.join( __dirname, 'locale' )
 }));
 
+app.use( "/bower", express.static( path.join(__dirname, 'bower_components' )));
+app.use( "/strings", function( req, res ) {
+  return res.jsonp( i18n.getStrings( req.params.lang || req.lang || "en-US" ) );
+});
 app.get( "/", function( req, res ) {
   res.render( "index.html" );
 });

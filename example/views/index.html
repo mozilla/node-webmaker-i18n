@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ lang }}" dir="{{ lang_dir }}">
+<script src="/bower/webmaker-i18n/localized.js"></script>
+<script>
+Localized.ready(function(){
+  var dynamic = document.querySelector("#dynamic");
+  dynamic.innerHTML = "This string should also be localized" + Localized.get("localized-string");
+});
+</script>
 <body>
 
 <p>This string should be localized: {{ gettext('localized-string') }}</p>
-
+<p id="dynamic">This should get replaced dynamically onload</p>
 </body>
 </html>

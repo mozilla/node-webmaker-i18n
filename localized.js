@@ -67,6 +67,7 @@
      * call ready() multiple times. For cache busting, pass noCache=true on the options arg.
      */
     ready: function(callback, options) {
+      options = options || {};
       var noCache = !!options.noCache,
           url = options.url || '/strings/';
       url = url.replace(/^\/?/, '/').replace(/\/?$/, '/');

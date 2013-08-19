@@ -1,0 +1,6 @@
+{
+  "name": "webmaker-i18n-example",
+  "dependencies": {
+    "webmaker-i18n": "../"
+  }
+}
