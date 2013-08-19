@@ -24,7 +24,7 @@ app.use( i18n.middleware({
 }));
 
 app.use( "/bower", express.static( path.join(__dirname, 'bower_components' )));
-app.use( "/strings", function( req, res ) {
+app.get( "/strings/:lang?", function( req, res ) {
   return res.jsonp( i18n.getStrings( req.params.lang || req.lang || "en-US" ) );
 });
 app.get( "/", function( req, res ) {
