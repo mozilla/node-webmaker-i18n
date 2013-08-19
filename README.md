@@ -17,6 +17,20 @@ Install the node.js module using npm:
 $ npm install webmaker-i18n
 ```
 
+## Example
+
+There is an example Express app in the `example/` directory. To run it:
+
+```
+$ npm install
+$ cd example
+$ node app.js
+```
+
+Now navigate to http://localhost:8000
+
+## API
+
 The module exposes a number of useful functions, including:
 
 ### middleware
