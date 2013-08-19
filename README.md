@@ -33,7 +33,7 @@ app.use(i18n.middleware({
     'en-US', 'th-TH', 'ru'
   ],
   default_lang: 'en-US',
-});
+}));
 ```
 
 This will cause the app to look for three locales on startup:
@@ -109,6 +109,78 @@ var enUSlanguage = fromLocale('en_US');
 Install the browser `localized.js` script using bower:
 
 ```
-$ bower install webmaker-i18n...
+$ bower install webmaker-i18n
 ```
 
+The `localized.js` script is usable with require.js or other AMD module loaders, and also in vanilla JavaScript.
+In both cases, the code assumes that the HTML page it lives in has language information stored in the HTML element:
+
+```html
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+  ...
+  <script src="bower_components/webmaker-i18n/localized.js"></script>
+```
+
+### AMD Usage
+
+```javascript
+require(['path/to/localized'], function(localized) {
+
+  // Don't do anything until the DOM + localized strings are ready
+  localized.ready(function(){
+    var someText = localized.get('some key');
+  });
+});
+```
+
+### Global Usage
+
+If you aren't using an AMD loader like require.js, the object will get added to the global:
+
+```javascript
+// Don't do anything until the DOM + localized strings are ready
+Localized.ready(function(){
+  var someText = localized.get('some key');
+});
+```
+
+### Localized members
+
+The `localized.js` script exposes a number of functions:
+
+* `ready` - a function that initializes the strings (i.e., downloads) on the client-side. A callback
+should be passed, as well as any desired options, which include `noCache` (whether to do cache busting, default is no)
+and `url` (the url end-point to use to call `getStrings` -- see above, default is '/strings/').
+
+```javascript
+function readyCallback() {
+ // Safe to use localized.get() now...
+}
+
+var options = { noCache: true, url: '/localized' }
+localized.ready(readyCallback, options);
+```
+
+* `getCurrentLang` - a function that returns the current language defined in the HTML element of the page.
+
+```html
+<html lang="th-TH" dir="ltr">
+...
+<script>
+...
+  var lang = localized.getCurrentLang();
+  // lang === 'th-TH'
+...
+</script>
+```
+
+* `get` - a function that gets the localized version of a given string key. Must be called after `ready` has completed so that
+the localized strings are loaded.
+
+```javascript
+localized.ready(function(){
+  var localized = localized.get('some string key');
+});
+```
