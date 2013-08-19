@@ -76,7 +76,7 @@
 
       if (!_requestedStrings) {
         _requestedStrings = true;
-        _readyCallbacks.push(calback);
+        _readyCallbacks.push(callback);
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
