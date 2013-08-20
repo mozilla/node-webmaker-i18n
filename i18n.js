@@ -193,7 +193,6 @@ exports.middleware = function(options) {
   options = options || {};
   options.supported_languages = options.supported_languages || ['en-US'];
   options.translation_directory = options.translation_directory || 'locale/';
-  options.locale_on_url = !options.locale_on_url ? false : true;
 
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
@@ -224,10 +223,6 @@ exports.middleware = function(options) {
   });
 
   function checkUrlLocale(req) {
-    if (!options.locale_on_url) {
-      return;
-    }
-
     // Given a URL, http://foo.com/ab/xyz/, we check to see if the first directory
     // is actually a locale we know about, and if so, we strip it out of the URL
     // (i.e., URL becomes http://foo.com/xyz/) and store that locale info on the

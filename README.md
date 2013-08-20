@@ -61,11 +61,6 @@ You can change the root locale directory by passing `translation_directory` with
 to locale names (i.e., en-US becomes en_US). Each locale directory must have one file named `messages.json`
 which contains the strings for the locale.
 
-One other option that you can pass to the `middleware` function is `locale_on_url` (true by default).
-This determines whether to allow and process langauge tags on the URL. If true,
-the list of `supported_languages` will be used to check URLs, and any containing a known langauge
-will get processed. For example: `/en-US/foo` would be come `/foo` and the language set to `en-US`.
-
 When `middleware` is used, all subsequent middleware and routes will have `req` and `res` objects
 with additional features. These include:
 
