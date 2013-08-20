@@ -14,7 +14,6 @@ nunjucksEnv.addFilter("instantiate", function(input) {
 });
 nunjucksEnv.express( app );
 
-// Setup locales with i18n
 app.use( i18n.middleware({
   supported_languages: [
     'en-US'
@@ -24,9 +23,7 @@ app.use( i18n.middleware({
 }));
 
 app.use( "/bower", express.static( path.join(__dirname, 'bower_components' )));
-app.get( "/strings/:lang?", function( req, res ) {
-  return res.jsonp( i18n.getStrings( req.params.lang || req.lang || "en-US" ) );
-});
+app.get( "/strings/:lang?", i18n.stringsRoute() );
 app.get( "/", function( req, res ) {
   res.render( "index.html" );
 });

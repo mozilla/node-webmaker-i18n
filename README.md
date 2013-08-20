@@ -84,6 +84,15 @@ will include any strings missing from the given langauge, which are present in t
 var ru = i18n.getStrings('ru');
 ```
 
+### stringsRoute
+
+The `stringsRoute` is a convenience to expose `getStrings` as a route for Express. It takes one optional
+argument, the default language to use (defaults to "en-US" if missing). It can be used like so:
+
+```javascript
+app.get( "/strings/:lang?", i18n.stringsRoute( "en-US" ) );
+```
+
 ### getLocales
 
 The `getLocales` function is used to get a list (array) of supported locale names, and matches the

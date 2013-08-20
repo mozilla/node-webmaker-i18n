@@ -155,7 +155,7 @@ exports.getLocales = function() {
 /**
  * Returns a copy of the translated strings for the given language.
  **/
-exports.getStrings = function(lang) {
+function getStrings(lang) {
   var locale = localeFrom(lang),
       strings = {};
   if (!translations[locale]) {
@@ -170,6 +170,19 @@ exports.getStrings = function(lang) {
     strings[key] = gettext(key, locale);
   });
   return strings;
+};
+exports.getStrings = getStrings;
+
+/**
+ * A route servers can use to expose strings for a given lang:
+ *
+ *   app.get( "/strings/:lang?", i18n.stringsRoute( "en-US" ) );
+ */
+exports.stringsRoute = function(defaultLang) {
+  defaultLang = defaultLang || "en-US";
+  return function(req, res) {
+    res.jsonp( getStrings( req.params.lang || req.lang || defaultLang ) );
+  };
 };
 
 /**
