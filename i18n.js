@@ -179,7 +179,7 @@ exports.getStrings = getStrings;
  *   app.get( "/strings/:lang?", i18n.stringsRoute( "en-US" ) );
  */
 exports.stringsRoute = function(defaultLang) {
-  defaultLang = defaultLang || "en-US";
+  defaultLang = defaultLang || default_lang;
   return function(req, res) {
     res.jsonp( getStrings( req.params.lang || req.lang || defaultLang ) );
   };
@@ -196,8 +196,7 @@ exports.middleware = function(options) {
   options.locale_on_url = !options.locale_on_url ? false : true;
 
   default_lang = options.default_lang || 'en-US';
-  default_locale = localeFrom(options.default_lang);
-  default_lang = options.default_lang;
+  default_locale = localeFrom(default_lang);
 
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
@@ -258,8 +257,7 @@ exports.middleware = function(options) {
 
     var langs = parseAcceptLanguage(req.headers['accept-language']),
         lang_dir,
-        lang = bestLanguage(langs, options.supported_languages,
-                            options.default_lang),
+        lang = bestLanguage(langs, options.supported_languages, default_lang),
         locale,
         locals = {},
         gt;
