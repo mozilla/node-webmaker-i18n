@@ -72,12 +72,10 @@
       // Allow calling ready with or without options.
       if (typeof options === 'function') {
         _callback = options;
-        options = callback || {};
+        options = {};
       } else {
         _callback = callback || function(){};
       }
-
-      options = options || {};
 
       var noCache = !!options.noCache,
           url = options.url || '/strings';
