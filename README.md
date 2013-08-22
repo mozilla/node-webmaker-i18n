@@ -169,7 +169,9 @@ The `localized.js` script exposes a number of functions:
 
 * `ready` - a function that initializes the strings (i.e., downloads) on the client-side. A callback
 should be passed, as well as any desired options, which include `noCache` (whether to do cache busting, default is no)
-and `url` (the url end-point to use to call `getStrings` -- see above, default is '/strings/').
+and `url` (the url end-point to use to call `getStrings` -- see above, default is '/strings/').  If the `url`
+is an absolute URL beginning in "http", the URL will not be processed in any way.  Otherwise, URLs get
+extra langauge info added (e.g., `/strings/[lang]`) based on what is in the HTML element's lang attribute.
 
 ```javascript
 function readyCallback() {
@@ -177,7 +179,9 @@ function readyCallback() {
 }
 
 var options = { noCache: true, url: '/localized' }
-localized.ready(readyCallback, options);
+localized.ready(options, readyCallback);
+// NOTE: you could also call it like so:
+// localized.ready(function(){...}); with no options.
 ```
 
 * `getCurrentLang` - a function that returns the current language defined in the HTML element of the page.

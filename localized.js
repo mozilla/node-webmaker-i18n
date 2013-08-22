@@ -66,17 +66,35 @@
      * queues a callback to be fired when the DOM + strings are ready. It is safe to
      * call ready() multiple times. For cache busting, pass noCache=true on the options arg.
      */
-    ready: function(callback, options) {
+    ready: function(options, callback) {
+      var _callback;
+
+      // Allow calling ready with or without options.
+      if (typeof options === 'function') {
+        _callback = options;
+        options = callback || {};
+      } else {
+        _callback = callback || function(){};
+      }
+
       options = options || {};
+
       var noCache = !!options.noCache,
-          url = options.url || '/strings/';
-      url = url.replace(/^\/?/, '/').replace(/\/?$/, '/');
-      url = url + getCurrentLang();
+          url = options.url || '/strings';
+
+      // If given an absolute url (starting in http), we don't process it.
+      // Otherwise we fix it up to include the current lang from <html lang="...">
+      if (url.indexOf( 'http' ) !== 0) {
+        url = url.replace(/^\/?/, '/').replace(/\/?$/, '/');
+        url = url + getCurrentLang();
+      }
+
+      // Add cache busting if requested.
       url = url + (noCache ? '?bust=' + Date.now() : '');
 
       if (!_requestedStrings) {
         _requestedStrings = true;
-        _readyCallbacks.push(callback);
+        _readyCallbacks.push(_callback);
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
