@@ -78,6 +78,7 @@
       }
 
       var noCache = !!options.noCache,
+          isFile = !!options.isFile,
           url = options.url || '/strings';
 
       // If given an absolute url (starting in http), we don't process it.
@@ -85,6 +86,9 @@
       if (url.indexOf( 'http' ) !== 0) {
         url = url.replace(/^\/?/, '/').replace(/\/?$/, '/');
         url = url + getCurrentLang();
+        if (isFile) {
+          url = url + '.json';
+        }
       }
 
       // Add cache busting if requested.
