@@ -203,12 +203,11 @@ exports.middleware = function(options) {
   * we won't return anything.
   */
   var langMap = require("./langmap"),
-    keysLang = options.supported_languages,
     languageNames = [];
 
-  keysLang.forEach(function(a) {
-    if(langMap[a]){
-      languageNames.push(langMap[a].name);
+  options.supported_languages.forEach(function(lang) {
+    if(langMap[lang]){
+      languageNames.push(langMap[lang].name);
     }
   });
 
