@@ -197,6 +197,22 @@ exports.middleware = function(options) {
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
 
+  /**
+  * Create a list of language names based on option of supported languages
+  * if the key name doesn't match any from the language map (langmap.js)
+  * we won't return anything.
+  */
+
+  var langMap = require("./langmap"),
+    keysLang = options.supported_languages,
+    languageNames = [];
+
+  keysLang.forEach(function(a) {
+    if(langMap[a]){
+      languageNames.push(langMap[a].name);
+    }
+  });
+
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
                         options.translation_directory,
@@ -258,6 +274,7 @@ exports.middleware = function(options) {
         gt;
 
     locals.lang = lang;
+    locals.languageNames = languageNames;
 
     // BIDI support, which direction does text flow?
     lang_dir = BIDI_RTL_LANGS.indexOf(lang) >= 0 ? 'rtl' : 'ltr';
