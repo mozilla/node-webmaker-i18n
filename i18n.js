@@ -202,7 +202,6 @@ exports.middleware = function(options) {
   * if the key name doesn't match any from the language map (langmap.js)
   * we won't return anything.
   */
-
   var langMap = require("./langmap"),
     keysLang = options.supported_languages,
     languageNames = [];
