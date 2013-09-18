@@ -14,10 +14,10 @@ nunjucksEnv.addFilter("instantiate", function(input) {
 });
 nunjucksEnv.express( app );
 
+var supportedLanguages = ['en-US'];
+
 app.use( i18n.middleware({
-  supported_languages: [
-    'en-US'
-  ],
+  supported_languages: supportedLanguages,
   default_lang: 'en-US',
   translation_directory: path.join( __dirname, 'locale' )
 }));

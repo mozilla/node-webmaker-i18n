@@ -122,6 +122,18 @@ var enUSlocale = fromLanguage('en-US');
 var enUSlanguage = fromLocale('en_US');
 ```
 
+### LanguageNameFor
+
+The `langaugeNameFor` function returns the language name based on the locale.  
+
+```javascript
+var languageName = languageNameFor('en-US');
+// The above will return "English (US)"
+
+var languageName = languageNameFor('th-TH');
+// The above will return "ไทย"
+```
+
 ## Client-Side in the browser
 
 Install the browser `localized.js` script using bower:
