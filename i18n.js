@@ -4,7 +4,9 @@
 
 var fs = require('fs'),
     path = require('path'),
-    util = require('util');
+    util = require('util'),
+    langMap = require("./langmap");
+
 
 var BIDI_RTL_LANGS = ['ar', 'fa', 'he'],
     translations = {},
@@ -104,13 +106,9 @@ function localeFrom(language) {
 /**
  * Given a locale, return language name
  **/
-function languageFor(locale) {
-  var langmap = require("./langmap");
-  if (langmap[locale]) {
-    return langmap[locale].name;
-  } else {
-    return "Unknown language name";
-  }
+function languageNameFor(locale) {
+  locale = languageFrom(locale);
+  return langMap[locale].name || "Unknown";
 }
 
 /**
@@ -120,7 +118,7 @@ function languageFrom(locale) {
   if (!locale || !locale.split) {
     return "";
   }
-  var parts = locale.split('_');
+  var parts = locale.split(/[-_]/);
   if (parts.length === 1) {
     return parts[0].toLowerCase();
   } else if (parts.length === 2) {
@@ -209,20 +207,6 @@ exports.middleware = function(options) {
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
 
-  /**
-  * Create a list of language names based on option of supported languages
-  * if the key name doesn't match any from the language map (langmap.js)
-  * we won't return anything.
-  */
-  var langMap = require("./langmap"),
-    languageNames = [];
-
-  options.supported_languages.forEach(function(lang) {
-    if(langMap[lang]){
-      languageNames.push(langMap[lang].name);
-    }
-  });
-
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
                         options.translation_directory,
@@ -284,7 +268,6 @@ exports.middleware = function(options) {
         gt;
 
     locals.lang = lang;
-    locals.languageNames = languageNames;
 
     // BIDI support, which direction does text flow?
     lang_dir = BIDI_RTL_LANGS.indexOf(lang) >= 0 ? 'rtl' : 'ltr';
@@ -340,8 +323,8 @@ exports.middleware = function(options) {
       // default lang in a non gettext environment... fake it
       gt = function(a) { return a; };
     }
-    locals.languageFor = languageFor;
-    req.languageFor = languageFor;
+    locals.languageNameFor = languageNameFor;
+    req.languageNameFor = languageNameFor;
     locals.gettext = gt;
     req.gettext = gt;
 
