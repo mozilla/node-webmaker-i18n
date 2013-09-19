@@ -124,7 +124,7 @@ var enUSlanguage = fromLocale('en_US');
 
 ### LanguageNameFor
 
-The `languageNameFor` functions return the language name based on the locale
+The `langaugeNameFor` function returns the language name based on the locale.  
 
 ```javascript
 var languageName = languageNameFor('en-US');
