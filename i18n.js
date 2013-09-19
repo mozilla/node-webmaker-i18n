@@ -102,6 +102,18 @@ function localeFrom(language) {
 }
 
 /**
+ * Given a locale, return language name
+ **/
+function languageFor(locale) {
+  var langmap = require("./langmap");
+  if (langmap[locale]) {
+    return langmap[locale].name;
+  } else {
+    return "Unknown language name";
+  }
+}
+
+/**
  * Given a locale code, return a language code
  **/
 function languageFrom(locale) {
@@ -328,6 +340,8 @@ exports.middleware = function(options) {
       // default lang in a non gettext environment... fake it
       gt = function(a) { return a; };
     }
+    locals.languageFor = languageFor;
+    req.languageFor = languageFor;
     locals.gettext = gt;
     req.gettext = gt;
 
