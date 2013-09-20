@@ -164,6 +164,10 @@ require(['path/to/localized'], function(localized) {
 });
 ```
 
+### Forcing Localized on the Global
+
+In some cases, it might be desirable to have the `localized` object placed on the global (e.g., `window`) even though requirejs is present in the page. This can be accomplished by assigning `true` to `window.__LOCALIZED_IGNORE_REQUIREJS`.
+
 ### Global Usage
 
 If you aren't using an AMD loader like require.js, the object will get added to the global:
