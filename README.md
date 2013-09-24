@@ -46,7 +46,7 @@ app.use(i18n.middleware({
   supported_languages: [
     'en-US', 'th-TH', 'ru'
   ],
-  default_lang: 'en-US',
+  default_lang: 'en-US'
 }));
 ```
 
@@ -69,6 +69,31 @@ with additional features. These include:
 * `lang` - the language being used (e.g., 'en-US')
 * `lang_dir` - the language direction (e.g., 'rtl' or 'ltr')
 * `setLocale` a function that can be used to swap locales after the `middleware` has set it automatically
+
+#### Dynamic Mappings
+
+Often one wants to map locale-specific langauges to a default.  For example, if there are 3 locales specified
+for English: `en-US`, `en-GB`, `en-CA`.  If a user requests `en`, we might choose to use `en-US` as the
+default. Doing such mappings is accompished using the `mappings` option:
+
+```javascript
+var i18n = require('webmaker-i18n');
+...
+app.use(i18n.middleware({
+  supported_languages: [
+    'en-US', 'en-GB', 'en-CA', 'th-TH', 'ru-RU'
+  ],
+  default_lang: 'en-US',
+  mappings: {
+    'en': 'en-US',
+    'th': 'th-TH',
+    'ru': 'ru-RU'
+  }
+}));
+```
+
+Here 8 languages are identified, 5 locale-based, and 3 defaults with no locale. Using such mappings,
+users can request `th` or `th-TH` and get the same result. NOTE: no mappings are applied by default.
 
 ### getStrings
 
