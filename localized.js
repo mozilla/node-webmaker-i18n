@@ -55,7 +55,7 @@
      */
     get: function(key) {
       if ( !_strings ) {
-        console.error( "[goggles.webmaker.org] Error: string catalog not found." );
+        console.error( "[webmaker-i18n] Error: string catalog not found." );
         return "";
       }
       return ( _strings[ key ] || "" );
