@@ -14,12 +14,16 @@ nunjucksEnv.addFilter("instantiate", function(input) {
 });
 nunjucksEnv.express( app );
 
-var supportedLanguages = ['en-US'];
+app.use( express.logger());
 
+var supportedLanguages = ['en-US', 'en-CA'];
 app.use( i18n.middleware({
   supported_languages: supportedLanguages,
   default_lang: 'en-US',
-  translation_directory: path.join( __dirname, 'locale' )
+  translation_directory: path.join( __dirname, 'locale' ),
+  mappings: {
+    'en': 'en-CA'
+  }
 }));
 
 app.use( "/bower", express.static( path.join(__dirname, 'bower_components' )));
@@ -29,5 +33,5 @@ app.get( "/", function( req, res ) {
 });
 
 app.listen(8000, function() {
-  console.log("Server listening ( http://localhost:8000");
+  console.log("Server listening - http://localhost:8000");
 });

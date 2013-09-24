@@ -8,7 +8,10 @@ Localized.ready(function(){
 });
 </script>
 <body>
-<p>Language name for "th-TH" is: {{ languageNameFor("th-TH") }}</p>
+<p>Language name for "en" is {{ languageNameFor( "en" ) }}</p>
+<p>Language name for "en-CA" is {{ languageNameFor( "en-CA" ) }}</p>
+<p>Language name for "en-US" is {{ languageNameFor( "en-US" ) }}</p>
+<p>Language name for "th-TH" is: {{ languageNameFor( "th-TH") }}</p>
 <p>This string should be localized: {{ gettext('localized-string') }}</p>
 <p id="dynamic">This should get replaced dynamically onload</p>
 </body>

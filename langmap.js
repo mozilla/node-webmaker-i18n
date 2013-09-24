@@ -1,3 +1,4 @@
+/* jshint -W100 */
 module.exports = {
   'af-ZA': { name: "Afrikaans" },
   'ar-AR': { name: "العربية" },
@@ -15,6 +16,7 @@ module.exports = {
   'de-DE': { name: "Deutsch" },
   'el-GR': { name: "Ελληνικά" },
   'en-GB': { name: "English (UK)" },
+  'en-CA': { name: "English (Canada)" },
   'en-IN': { name: "English (India)" },
   'en-PI': { name: "English (Pirate)" },
   'en-UD': { name: "English (Upside Down)" },

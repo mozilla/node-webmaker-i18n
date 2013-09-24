@@ -108,7 +108,7 @@ function localeFrom(language) {
  **/
 function languageNameFor(locale) {
   locale = languageFrom(locale);
-  return langMap[locale].name || "Unknown";
+  return langMap[locale] ? langMap[locale].name : "Unknown";
 }
 
 /**
@@ -180,7 +180,7 @@ function getStrings(lang) {
     strings[key] = gettext(key, locale);
   });
   return strings;
-};
+}
 exports.getStrings = getStrings;
 
 /**
@@ -203,6 +203,7 @@ exports.middleware = function(options) {
   options = options || {};
   options.supported_languages = options.supported_languages || ['en-US'];
   options.translation_directory = options.translation_directory || 'locale/';
+  options.mappings = options.mappings || {};
 
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
@@ -217,6 +218,7 @@ exports.middleware = function(options) {
     return require(messages_file_path(locale));
   }
 
+  // Load supported languages
   options.supported_languages.forEach(function(lang) {
     var locale = localeFrom(lang);
 
@@ -230,6 +232,20 @@ exports.middleware = function(options) {
       console.error(msg);
       throw msg;
     }
+  });
+
+  // Set up dynamic mappings on top of supported languages
+  Object.keys(options.mappings).forEach(function(dynamicLang) {
+    var mapping = options.mappings[dynamicLang];
+    var locale = localeFrom(mapping);
+    if (!translations[locale]) {
+      console.error('Unknown language mapping [%s] -> [%s], skipping.', dynamicLang, mapping);
+      return;
+    }
+    translations[dynamicLang] = translations[locale];
+    // Extend the language name mappings too, in case we're missing a generic language name.
+    langMap[dynamicLang] = langMap[dynamicLang] || langMap[mapping];
+    options.supported_languages.push(dynamicLang);
   });
 
   function checkUrlLocale(req) {
