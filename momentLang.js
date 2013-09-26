@@ -8,5 +8,5 @@ module.exports = {
         'id', 'is', 'it', 'ja', 'ka', 'ko', 'lv', 'ml', 'mr',
         'ms-my','nb','ne','nl','nn','pl','pt-br','pt','ro',
         'ru', 'sk', 'sl', 'sq', 'sv', 'th', 'tr', 'tzm-la',
-        'tzm', 'uk', 'zh-cn', 'zh-tw'];
+        'tzm', 'uk', 'zh-cn', 'zh-tw']
 };
