@@ -5,8 +5,8 @@
 var fs = require('fs'),
     path = require('path'),
     util = require('util'),
-    langMap = require("./langmap");
-
+    langMap = require("./langmap"),
+    momentLang = require("./momentLang");
 
 var BIDI_RTL_LANGS = ['ar', 'fa', 'he'],
     translations = {},
@@ -29,6 +29,24 @@ function qualityCmp(a, b) {
   } else {
     return -1;
   }
+}
+
+/**
+ * Convert the given language name into Moment.js supported Language name
+ *
+ *   lang: 'en-US' return: 'en'
+ *   lang: 'en-CA' return: 'en-ca'
+ *   lang: 'th-TH' return: 'th'
+ **/
+function langToMomentJSLang(lang) {
+  lang = lang.toLowerCase();
+  var newLang = lang.substr(0,2);
+  if (momentLang.map.indexOf(lang) !== -1) {
+   return lang;
+  } else if (momentLang.map.indexOf(newLang) !== -1) {
+   return newLang;
+  }
+  return 'en';
 }
 
 /**
@@ -341,6 +359,8 @@ exports.middleware = function(options) {
     }
     locals.languageNameFor = languageNameFor;
     req.languageNameFor = languageNameFor;
+    locals.langToMomentJSLang = langToMomentJSLang;
+    req.langToMomentJSLang = langToMomentJSLang;
     locals.gettext = gt;
     req.gettext = gt;
 

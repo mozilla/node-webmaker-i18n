@@ -159,6 +159,21 @@ var languageName = languageNameFor('th-TH');
 // The above will return "ไทย"
 ```
 
+### langToMomentJSLang
+
+The `langToMomentJSLang` function converts the given language name to the [moment.js supported language name](momentLang.js)
+
+```javascript
+var momentJSLang = langToMomentJSLang('en-US');
+// The above will return "en"
+
+var momentJSLang = langToMomentJSLang('th-TH');
+// The above will return "th"
+
+var momentJSLang = langToMomentJSLang('en-CA');
+// The above will return "en-ca"
+```
+
 ## Client-Side in the browser
 
 Install the browser `localized.js` script using bower:
@@ -237,6 +252,20 @@ localized.ready(options, readyCallback);
 ...
 </script>
 ```
+
+* `langToMomentJSLang` - a function that converts the given language name to the [moment.js supported language name](momentLang.js)
+
+```javascript
+var momentJSLang = langToMomentJSLang('en-US');
+// The above will return "en"
+
+var momentJSLang = langToMomentJSLang('th-TH');
+// The above will return "th"
+
+var momentJSLang = langToMomentJSLang('en-CA');
+// The above will return "en-ca"
+```
+
 
 * `get` - a function that gets the localized version of a given string key. Must be called after `ready` has completed so that
 the localized strings are loaded.
