@@ -62,6 +62,35 @@
     },
 
     /**
+     * Convert the given language name into Moment.js supported Language name
+     *
+     *   lang: 'en-US' return: 'en'
+     *   lang: 'en-CA' return: 'en-ca'
+     *   lang: 'th-TH' return: 'th'
+     **/
+    langToMomentJSLang: function(lang) {
+      /* The list of moment.js supported languages
+       * Extracted from https://rawgithub.com/moment/moment/2.2.1/min/moment+langs.js
+       */
+      var momentLangMap = ['en', 'ar-ma', 'ar', 'bg', 'br', 'ca', 'cs', 'cv',
+             'da', 'de', 'el', 'en-ca', 'en-gb', 'eo', 'es', 'et',
+             'eu', 'fa','fi','fr-ca','fr','gl','he','hi','hr','hu',
+             'id', 'is', 'it', 'ja', 'ka', 'ko', 'lv', 'ml', 'mr',
+             'ms-my','nb','ne','nl','nn','pl','pt-br','pt','ro',
+             'ru', 'sk', 'sl', 'sq', 'sv', 'th', 'tr', 'tzm-la',
+             'tzm', 'uk', 'zh-cn', 'zh-tw'];
+
+      lang = lang.toLowerCase();
+      var newLang = lang.substr(0,2);
+      if (momentLangMap.indexOf(lang) !== -1) {
+        return lang;
+      } else if (momentLangMap.indexOf(newLang) !== -1) {
+        return newLang;
+      }
+      return 'en';
+    },
+
+    /**
      * gets the current lang used for the given page, or en-US by default.
      */
     getCurrentLang: getCurrentLang,
