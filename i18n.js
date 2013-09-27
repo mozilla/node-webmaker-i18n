@@ -317,6 +317,7 @@ exports.middleware = function(options) {
 
     locals.localeInfo = localeInfo;
     req.localeInfo = localeInfo;
+    locals.languageNameFor = languageNameFor;
 
     var formatFnName = 'format';
     if (!! locals.format || !! req.format) {
