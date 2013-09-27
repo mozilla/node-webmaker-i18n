@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ lang }}" dir="{{ lang_dir }}">
+<html lang="{{ localeInfo.lang }}" dir="{{ localeInfo.direction }}">
 <script src="/bower/webmaker-i18n/localized.js"></script>
 <script>
 Localized.ready(function(){
@@ -8,10 +8,11 @@ Localized.ready(function(){
 });
 </script>
 <body>
-<p>Language name for "en" is {{ languageNameFor( "en" ) }}</p>
-<p>Language name for "en-CA" is {{ languageNameFor( "en-CA" ) }}</p>
-<p>Language name for "en-US" is {{ languageNameFor( "en-US" ) }}</p>
-<p>Language name for "th-TH" is: {{ languageNameFor( "th-TH") }}</p>
+<p>Your language name is: {{ localeInfo.name }}</p>
+<p>Your language code is: {{ localeInfo.lang }}</p>
+<p>Your locale code is: {{ localeInfo.locale }}</p>
+<p>Your language direction is: {{ localeInfo.direction }}
+<p>Your moment.js supported language is: {{ localeInfo.momentLang }}
 <p>This string should be localized: {{ gettext('localized-string') }}</p>
 <p id="dynamic">This should get replaced dynamically onload</p>
 </body>
