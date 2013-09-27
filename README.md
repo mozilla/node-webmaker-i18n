@@ -156,7 +156,7 @@ var enUSlocale = fromLanguage('en-US');
 var enUSlanguage = fromLocale('en_US');
 ```
 
-### LanguageNameFor
+### languageNameFor
 
 The `langaugeNameFor` function returns the language name based on the locale.  
 
@@ -166,21 +166,6 @@ var languageName = languageNameFor('en-US');
 
 var languageName = languageNameFor('th-TH');
 // The above will return "ไทย"
-```
-
-### langToMomentJSLang
-
-The `langToMomentJSLang` function converts the given language name to the [moment.js supported language name](momentLang.js)
-
-```javascript
-var momentJSLang = langToMomentJSLang('en-US');
-// The above will return "en"
-
-var momentJSLang = langToMomentJSLang('th-TH');
-// The above will return "th"
-
-var momentJSLang = langToMomentJSLang('en-CA');
-// The above will return "en-ca"
 ```
 
 ## Client-Side in the browser
