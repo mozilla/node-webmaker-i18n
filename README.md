@@ -66,9 +66,6 @@ with additional features. These include:
 
 * `gettext` - a function used to get a localized string for a given key
 * `format` - a function used to interpolate strings (see below)
-* `lang` - the language being used (e.g., 'en-US')
-* `lang_dir` - the language direction (e.g., 'rtl' or 'ltr')
-* `setLocale` a function that can be used to swap locales after the `middleware` has set it automatically
 
 #### Dynamic Mappings
 
@@ -94,6 +91,18 @@ app.use(i18n.middleware({
 
 Here 8 languages are identified, 5 locale-based, and 3 defaults with no locale. Using such mappings,
 users can request `th` or `th-TH` and get the same result. NOTE: no mappings are applied by default.
+
+### localeInfo
+
+The `localeInfo` object contains all the locale information listed below:
+
+If the request comes in as "en-CA"
+
+* `localeInfo.name` = "English (Canada)"
+* `localeInfo.lang` = "en-CA"
+* `localeInfo.locale` = "en_CA"
+* `localeInfo.momentLang` = "en-ca"
+* `localeInfo.direction` = "ltr"
 
 ### getStrings
 

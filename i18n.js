@@ -209,7 +209,7 @@ exports.getStrings = getStrings;
 exports.stringsRoute = function(defaultLang) {
   defaultLang = defaultLang || default_lang;
   return function(req, res) {
-    res.jsonp( getStrings( req.params.lang || req.lang || defaultLang ) );
+    res.jsonp( getStrings( req.params.lang || req.localeInfo.lang || defaultLang ) );
   };
 };
 
@@ -298,20 +298,25 @@ exports.middleware = function(options) {
         lang_dir,
         lang = bestLanguage(langs, options.supported_languages, default_lang),
         locale,
+        localeInfo = {},
         locals = {},
         gt;
 
-    locals.lang = lang;
-
     // BIDI support, which direction does text flow?
     lang_dir = BIDI_RTL_LANGS.indexOf(lang) >= 0 ? 'rtl' : 'ltr';
-    locals.lang_dir = lang_dir;
-    req.lang = lang;
 
     locale = localeFrom(lang);
 
-    locals.locale = locale;
-    req.locale = locale;
+    // localeInfo object will contain all the necessary informations that we need
+    // from the coming request and we will later attached that to the locals and req
+    localeInfo.name = languageNameFor(lang);
+    localeInfo.lang = lang;
+    localeInfo.locale = locale;
+    localeInfo.momentLang = langToMomentJSLang(lang);
+    localeInfo.direction = lang_dir;
+
+    locals.localeInfo = localeInfo;
+    req.localeInfo = localeInfo;
 
     var formatFnName = 'format';
     if (!! locals.format || !! req.format) {
@@ -329,26 +334,6 @@ exports.middleware = function(options) {
     locals[formatFnName] = format;
     req[formatFnName] = format;
 
-    locals.setLocale = function(assignedLocale) {
-      if (translations[assignedLocale]) {
-        locale = assignedLocale;
-
-        var newLocals = {};
-
-        newLocals.locale = assignedLocale;
-        req.locale = assignedLocale;
-
-        newLocals.lang = languageFrom(assignedLocale);
-        req.lang = newLocals.lang;
-
-        newLocals.lang_dir = BIDI_RTL_LANGS.indexOf(newLocals.lang) >= 0 ? 'rtl' : 'ltr';
-        req.lang_dir = newLocals.lang_dir;
-
-        resp.locals(newLocals);
-      }
-    };
-    req.setLocale = locals.setLocale;
-
     if (translations[locale]) {
       gt = function(sid) {
         return gettext(sid, locale);
@@ -357,10 +342,6 @@ exports.middleware = function(options) {
       // default lang in a non gettext environment... fake it
       gt = function(a) { return a; };
     }
-    locals.languageNameFor = languageNameFor;
-    req.languageNameFor = languageNameFor;
-    locals.langToMomentJSLang = langToMomentJSLang;
-    req.langToMomentJSLang = langToMomentJSLang;
     locals.gettext = gt;
     req.gettext = gt;
 
