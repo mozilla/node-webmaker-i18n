@@ -291,6 +291,13 @@ exports.middleware = function(options) {
     req.headers['accept-language'] = lang;
   }
 
+  // If the given lang is the lang in the mapping we will substitute that lang
+  // to the lang name in which its pointing to
+  // e.g.   mappings: { 'en': 'en-CA' } now 'en' will become 'en-CA'
+  function substituteMapping(lang) {
+    return options.mappings[lang] || lang;
+  }
+
   return function(req, resp, next) {
     checkUrlLocale(req);
 
@@ -301,6 +308,8 @@ exports.middleware = function(options) {
         localeInfo = {},
         locals = {},
         gt;
+
+    lang = substituteMapping(lang);
 
     // BIDI support, which direction does text flow?
     lang_dir = BIDI_RTL_LANGS.indexOf(lang) >= 0 ? 'rtl' : 'ltr';
