@@ -319,7 +319,7 @@ exports.middleware = function(options) {
     // localeInfo object will contain all the necessary informations that we need
     // from the coming request and we will later attached that to the locals and req
     localeInfo.name = languageNameFor(lang);
-    localeInfo.lang = lang;
+    localeInfo.lang = languageFrom(lang);
     localeInfo.locale = locale;
     localeInfo.momentLang = langToMomentJSLang(lang);
     localeInfo.direction = lang_dir;
