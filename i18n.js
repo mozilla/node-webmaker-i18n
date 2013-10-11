@@ -221,7 +221,18 @@ exports.middleware = function(options) {
   options = options || {};
   options.supported_languages = options.supported_languages || ['en-US'];
   options.translation_directory = options.translation_directory || 'locale/';
-  options.mappings = options.mappings || {};
+  options.mappings = options.mappings || '';
+
+  var pairings = options.mappings.split(' '),
+      mappings = {};
+
+  pairings.forEach(function(pair) {
+    var lang = pair.split(',');
+
+    mappings[lang[0]] = lang[1];
+  });
+
+  options.mappings = mappings;
 
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
