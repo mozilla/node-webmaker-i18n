@@ -221,7 +221,30 @@ exports.middleware = function(options) {
   options = options || {};
   options.supported_languages = options.supported_languages || ['en-US'];
   options.translation_directory = options.translation_directory || 'locale/';
-  options.mappings = options.mappings || {};
+  options.mappings = options.mappings || '';
+
+
+  /*
+   * Language mappings are now passed in as a string to allow for a config
+   * based approach to turning languages on/off.
+   *
+   * Example:
+   * var mappings = 'en,en-US th,th-TH ru,ru-RU';
+   *
+   * The spaces separate a key/value pair, with the key being on the left
+   * of the comma and the value on the right.
+   */
+
+  var pairings = options.mappings.split(' '),
+      mappings = {};
+
+  pairings.forEach(function(pair) {
+    var lang = pair.split(',');
+
+    mappings[lang[0]] = lang[1];
+  });
+
+  options.mappings = mappings;
 
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);

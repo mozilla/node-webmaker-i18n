@@ -71,21 +71,18 @@ with additional features. These include:
 
 Often one wants to map locale-specific langauges to a default.  For example, if there are 3 locales specified
 for English: `en-US`, `en-GB`, `en-CA`.  If a user requests `en`, we might choose to use `en-US` as the
-default. Doing such mappings is accompished using the `mappings` option:
+default. Doing such mappings is accompished using the `mappings` option. The mappings option expects a string to specify the key/value pairings. For example:
 
 ```javascript
-var i18n = require('webmaker-i18n');
+var i18n = require('webmaker-i18n'),
+    mappings = 'en,en-US th,th-TH ru,ru-RU';
 ...
 app.use(i18n.middleware({
   supported_languages: [
     'en-US', 'en-GB', 'en-CA', 'th-TH', 'ru-RU'
   ],
   default_lang: 'en-US',
-  mappings: {
-    'en': 'en-US',
-    'th': 'th-TH',
-    'ru': 'ru-RU'
-  }
+  mappings: mappings
 }));
 ```
 
