@@ -223,6 +223,18 @@ exports.middleware = function(options) {
   options.translation_directory = options.translation_directory || 'locale/';
   options.mappings = options.mappings || '';
 
+
+  /*
+   * Language mappings are now passed in as a string to allow for a config
+   * based approach to turning languages on/off.
+   *
+   * Example:
+   * var mappings = 'en,en-US th,th-TH ru,ru-RU';
+   *
+   * The spaces separate a key/value pair, with the key being on the left
+   * of the comma and the value on the right.
+   */
+
   var pairings = options.mappings.split(' '),
       mappings = {};
 
