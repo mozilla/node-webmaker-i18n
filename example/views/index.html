@@ -13,6 +13,7 @@ Localized.ready(function(){
 <p>Your locale code is: {{ localeInfo.locale }}</p>
 <p>Your language direction is: {{ localeInfo.direction }}
 <p>Your moment.js supported language is: {{ localeInfo.momentLang }}
+<p>{{ gettext("someThingCool") }} {{ gettext("supportMultipleFiles") }}</p>
 <p>This string should be localized: {{ gettext('localized-string') }}</p>
 <p id="dynamic">This should get replaced dynamically onload</p>
 </body>

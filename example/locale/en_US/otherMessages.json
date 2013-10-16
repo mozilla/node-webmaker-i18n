@@ -1,0 +1,4 @@
+{
+ "someThingCool": "This message coming from another file in the locale directory.",
+ "supportMultipleFiles": "We can now support multiple files."
+}

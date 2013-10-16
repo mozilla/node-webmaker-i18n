@@ -3,10 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 var fs = require('fs'),
-    path = require('path'),
-    util = require('util'),
     langMap = require("./langmap"),
-    momentLang = require("./momentLang");
+    _ = require("lodash"),
+    momentLang = require("./momentLang"),
+    path = require('path'),
+    util = require('util');
 
 var BIDI_RTL_LANGS = ['ar', 'fa', 'he'],
     translations = {},
@@ -229,11 +230,34 @@ exports.middleware = function(options) {
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
                         options.translation_directory,
-                        path.join(locale, 'messages.json'));
+                        path.join(locale));
   }
 
   function parse_messages_file(locale) {
-    return require(messages_file_path(locale));
+    var localePath = messages_file_path(locale),
+        localeStrings = {};
+
+    // Require all the files in locale directory for the given locale
+    // and add them to a single object then return them.
+    fs.readdirSync(localePath).forEach(function(fileName) {
+      // Check if the file extension is .json
+      if( !fileName.match(/\.json$/) ) {
+        return;
+      }
+      fullPath = path.join(localePath, fileName);
+      try {
+        strings = require(fullPath);
+        _.extend(localeStrings, strings);
+      } catch (e) {
+        var msg = util.format(
+          'Unknown file name for locale=[%s] in [%s]. See the error message: (%s)',
+          locale, messages_file_path(locale), e
+        );
+        console.error(msg);
+        throw msg;
+      }
+    });
+    return localeStrings;
   }
 
   // Load supported languages

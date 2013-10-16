@@ -13,6 +13,9 @@
   "keywords": [
     "webmaker"
   ],
+  "dependencies": {
+    "lodash": "2.2.1"
+  },
   "author": "The Webmaker Team <webmaker-dev@mozilla.org>",
   "license": "MPL-2.0"
 }
