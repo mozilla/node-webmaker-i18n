@@ -85,6 +85,7 @@ module.exports = {
   'pa-IN': { name: "ਪੰਜਾਬੀ" },
   'pl-PL': { name: "Polski" },
   'ps-AF': { name: "پښتو" },
+  'pt': { name: "Português" },
   'pt-BR': { name: "Português (Brasil)" },
   'pt-PT': { name: "Português (Portugal)" },
   'qu-PE': { name: "Qhichwa" },
