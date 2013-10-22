@@ -333,7 +333,7 @@ exports.middleware = function(options) {
         locals = {},
         gt;
 
-    lang = substituteMapping(lang);
+    lang = substituteMapping(languageFrom(lang));
 
     // BIDI support, which direction does text flow?
     lang_dir = BIDI_RTL_LANGS.indexOf(lang) >= 0 ? 'rtl' : 'ltr';
