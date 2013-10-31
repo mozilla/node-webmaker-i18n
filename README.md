@@ -36,7 +36,7 @@ The module exposes a number of useful functions, including:
 ### middleware
 
 The `middleware` function is used with Express. It should be placed early on in the order of your middleware
-functions, such that it can detect and process any extra langauge (i.e., language codes on the URL or
+functions, such that it can detect and process any extra language (i.e., language codes on the URL or
 accept-language header. You use it like so:
 
 ```javascript
@@ -69,7 +69,7 @@ with additional features. These include:
 
 #### Dynamic Mappings
 
-Often one wants to map locale-specific langauges to a default.  For example, if there are 3 locales specified
+Often one wants to map locale-specific languages to a default.  For example, if there are 3 locales specified
 for English: `en-US`, `en-GB`, `en-CA`.  If a user requests `en`, we might choose to use `en-US` as the
 default. Doing such mappings is accompished using the `mappings` option:
 
@@ -107,7 +107,7 @@ If the request comes in as "en-CA"
 ### getStrings
 
 The `getStrings` function is used to get an object containing all strings for a given language. This
-will include any strings missing from the given langauge, which are present in the default language.
+will include any strings missing from the given language, which are present in the default language.
 
 ```javascript
 var ru = i18n.getStrings('ru');
@@ -144,7 +144,7 @@ i18n.format("%(salutation)s %(place)s", {salutation: "Hello", place: "World"}, t
 i18n.format("%s %s", ["Hello", "World"]);
 ```
 
-### langaugeFrom, localeFrom
+### languageFrom, localeFrom
 
 The `languageFrom` and `localeFrom` functions convert languages to locales and vice versa.
 
@@ -158,7 +158,7 @@ var enUSlanguage = fromLocale('en_US');
 
 ### languageNameFor
 
-The `langaugeNameFor` function returns the language name based on the locale.  
+The `languageNameFor` function returns the language name based on the locale.  
 
 ```javascript
 var languageName = languageNameFor('en-US');
@@ -221,7 +221,7 @@ The `localized.js` script exposes a number of functions:
 should be passed, as well as any desired options, which include `noCache` (whether to do cache busting, default is no)
 and `url` (the url end-point to use to call `getStrings` -- see above, default is '/strings/').  If the `url`
 is an absolute URL beginning in "http", the URL will not be processed in any way.  Otherwise, URLs get
-extra langauge info added (e.g., `/strings/[lang]`) based on what is in the HTML element's lang attribute.
+extra language info added (e.g., `/strings/[lang]`) based on what is in the HTML element's lang attribute.
 
 ```javascript
 function readyCallback() {
