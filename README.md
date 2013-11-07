@@ -131,6 +131,14 @@ names of the folders that should be present in the `locale/` translation directo
 var locales = i18n.getLocales();
 ```
 
+### getLanguages
+
+The `getLanguages` function is used to get a list (array) of supported language names.
+
+```javascript
+var languages = i18n.getLanguages();
+```
+
 ### format
 
 The `format` function provides string interpolation, and can be used with either an object for
@@ -158,7 +166,7 @@ var enUSlanguage = fromLocale('en_US');
 
 ### languageNameFor
 
-The `languageNameFor` function returns the language name based on the locale.  
+The `languageNameFor` function returns the language name based on the locale.
 
 ```javascript
 var languageName = languageNameFor('en-US');

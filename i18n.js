@@ -12,7 +12,8 @@ var fs = require('fs'),
 var BIDI_RTL_LANGS = ['ar', 'fa', 'he'],
     translations = {},
     default_lang = 'en-US',
-    default_locale = 'en_US';
+    default_locale = 'en_US',
+    listSupportedLang;
 
 function gettext(sid, locale) {
   if (translations[locale][sid] && translations[locale][sid].length) {
@@ -175,10 +176,17 @@ exports.format = format = function(fmt, obj, named) {
 };
 
 /**
- * Returns the list of translations abide is currently configured to support.
+ * Returns the list of locales that we support in an array format
  **/
 exports.getLocales = function() {
   return Object.keys(translations);
+};
+
+/**
+ * Returns the list of languages that we support in an array format
+ **/
+exports.getLanguages = function() {
+  return listSupportedLang;
 };
 
 /**
@@ -220,7 +228,7 @@ exports.stringsRoute = function(defaultLang) {
  */
 exports.middleware = function(options) {
   options = options || {};
-  options.supported_languages = options.supported_languages || ['en-US'];
+  listSupportedLang = options.supported_languages.slice(0) || ['en-US'];
   options.translation_directory = options.translation_directory || 'locale/';
   options.mappings = options.mappings || {};
 
@@ -287,7 +295,7 @@ exports.middleware = function(options) {
     translations[dynamicLang] = translations[locale];
     // Extend the language name mappings too, in case we're missing a generic language name.
     langMap[dynamicLang] = langMap[dynamicLang] || langMap[mapping];
-    options.supported_languages.push(dynamicLang);
+    listSupportedLang.push(dynamicLang);
   });
 
   function checkUrlLocale(req) {
@@ -305,7 +313,7 @@ exports.middleware = function(options) {
     // We do this so that we don't falsely consume more of the URL than we should
     // and stip things that aren't actually locales we know about.
     var lang = bestLanguage(parseAcceptLanguage(matches[1]),
-                            options.supported_languages,
+                            listSupportedLang,
                             "unknown");
     if (lang === "unknown") {
       return;
@@ -327,7 +335,7 @@ exports.middleware = function(options) {
 
     var langs = parseAcceptLanguage(req.headers['accept-language']),
         lang_dir,
-        lang = bestLanguage(langs, options.supported_languages, default_lang),
+        lang = bestLanguage(langs, listSupportedLang, default_lang),
         locale,
         localeInfo = {},
         locals = {},
