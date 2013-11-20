@@ -233,10 +233,14 @@ exports.middleware = function(options) {
 
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
-  if ( !Array.isArray(options.supported_languages) ) {
+  if (!options.supported_languages) {
     options.supported_languages = ['en-US'];
+    listSupportedLang = options.supported_languages.slice(0);
+  } else if (options.supported_languages && options.supported_languages.length) {
+    listSupportedLang = options.supported_languages.slice(0);
+  } else {
+    throw new Error("Please check your supported_languages config.")
   }
-  listSupportedLang =  options.supported_languages.slice();
 
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
