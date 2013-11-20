@@ -228,12 +228,15 @@ exports.stringsRoute = function(defaultLang) {
  */
 exports.middleware = function(options) {
   options = options || {};
-  listSupportedLang = options.supported_languages.slice(0) || ['en-US'];
   options.translation_directory = options.translation_directory || 'locale/';
   options.mappings = options.mappings || {};
 
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
+  if ( !Array.isArray(options.supported_languages) ) {
+    options.supported_languages = ['en-US'];
+  }
+  listSupportedLang =  options.supported_languages.slice();
 
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
