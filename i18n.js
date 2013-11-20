@@ -13,7 +13,8 @@ var BIDI_RTL_LANGS = ['ar', 'fa', 'he'],
     translations = {},
     default_lang = 'en-US',
     default_locale = 'en_US',
-    listSupportedLang;
+    listSupportedLang,
+    listOfLanguages;
 
 function gettext(sid, locale) {
   if (translations[locale][sid] && translations[locale][sid].length) {
@@ -190,6 +191,13 @@ exports.getLanguages = function() {
 };
 
 /**
+* Returns the list of languages that we support in an array format based on the lang-Countries found in your locale dir
+**/
+exports.getSupportLanguages = function() {
+  return listOfLanguages;
+};
+
+/**
  * Returns a copy of the translated strings for the given language.
  **/
 function getStrings(lang) {
@@ -233,14 +241,17 @@ exports.middleware = function(options) {
 
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
+
   if (!options.supported_languages) {
     options.supported_languages = ['en-US'];
     listSupportedLang = options.supported_languages.slice(0);
   } else if (options.supported_languages && options.supported_languages.length) {
     listSupportedLang = options.supported_languages.slice(0);
+    listOfLanguages = options.supported_languages;
   } else {
     throw new Error("Please check your supported_languages config.")
   }
+
 
   // Use the lang-Countries found in your locale dir without explicitly specifying them.
   if( listSupportedLang.length === 1 && listSupportedLang[0] === '*') {
@@ -252,7 +263,8 @@ exports.middleware = function(options) {
     for (var i = listSupportedLang.length - 1; i >= 0; i--) {
       listSupportedLang[i] = languageFrom(listSupportedLang[i]);
     };
-
+    options.supported_languages = listSupportedLang.slice(0);
+    listOfLanguages = options.supported_languages;
   }
   // If there is a '*' in the supported_languages field with some other languages.
   else if (listSupportedLang.indexOf('*') !== -1 && listSupportedLang.length !== 1) {
