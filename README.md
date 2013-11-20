@@ -71,7 +71,7 @@ with additional features. These include:
 
 Often one wants to map locale-specific languages to a default.  For example, if there are 3 locales specified
 for English: `en-US`, `en-GB`, `en-CA`.  If a user requests `en`, we might choose to use `en-US` as the
-default. Doing such mappings is accompished using the `mappings` option:
+default. Doing such mappings is accomplished using the `mappings` option:
 
 ```javascript
 var i18n = require('webmaker-i18n');
@@ -91,6 +91,44 @@ app.use(i18n.middleware({
 
 Here 8 languages are identified, 5 locale-based, and 3 defaults with no locale. Using such mappings,
 users can request `th` or `th-TH` and get the same result. NOTE: no mappings are applied by default.
+
+
+#### Global enabling langauges
+
+If you are using Transifex and want to download and enable all the languages supported in your project, you can accomplish this with the following steps:
+
+```
+sudo npm install -g transifex
+```
+
+You will have to download all the translation files first using:
+
+```
+transifex -u "user:pass" -p "<project_name>" -c "<category_name>" -d "path_to_save_files"
+```
+
+
+* name: The name of your project on Transifex which can be found in the url slug
+- https://www.transifex.com/projects/p/webmaker/
+* category_name: The category of your resource file(s) that you want to download for your project
+- Webmaker.org has `weblitstandard.json` and `webmaker.org.json` which are both categorized under `webmaker`.
+
+Now all the languages in your Transifex project will be downloaded to "path_to_save_files", for example your locale directory.  Each language will be stored as a locale-Country pair (i.e., en_US).
+
+``` javascript
+var i18n = require('webmaker-i18n');
+
+app.use( i18n.middleware({
+  supported_languages: ['*'],
+  default_lang: 'en-US',
+  translation_directory: path.join( __dirname, 'locale' ),
+  mappings: {
+    'en': 'en-CA'
+  }
+}));
+```
+
+> supported_languages: If you set this to ['*'] the language codes will be read from the specified translation directory. This assumes you have already downloaded or otherwise created these directories yourself. For example, if you have locale/en_US and locale/fr the list of supported languages will include en-US and fr.
 
 ### localeInfo
 

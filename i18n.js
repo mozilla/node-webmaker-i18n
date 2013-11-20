@@ -242,6 +242,23 @@ exports.middleware = function(options) {
     throw new Error("Please check your supported_languages config.")
   }
 
+  // Use the lang-Countries found in your locale dir without explicitly specifying them.
+  if( listSupportedLang.length === 1 && listSupportedLang[0] === '*') {
+
+    // Read the translation_directory and get all the language codes
+    listSupportedLang = fs.readdirSync(options.translation_directory);
+
+    // Change the locale to lang e.g. en_US ==> en-US
+    for (var i = listSupportedLang.length - 1; i >= 0; i--) {
+      listSupportedLang[i] = languageFrom(listSupportedLang[i]);
+    };
+
+  }
+  // If there is a '*' in the supported_languages field with some other languages.
+  else if (listSupportedLang.indexOf('*') !== -1 && listSupportedLang.length !== 1) {
+    throw new Error("Bad Config - Check your supported_languages field. Please see the README for more details.");
+  }
+
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
                         options.translation_directory,
@@ -275,7 +292,6 @@ exports.middleware = function(options) {
     return localeStrings;
   }
 
-  // Load supported languages
   options.supported_languages.forEach(function(lang) {
     var locale = localeFrom(lang);
 
