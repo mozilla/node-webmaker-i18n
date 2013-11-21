@@ -128,7 +128,7 @@ app.use( i18n.middleware({
 }));
 ```
 
-> supported_languages: If you set this to ['*'] the language codes will be read from the specified translation directory. This assumes you have already downloaded or otherwise created these directories yourself. For example, if you have locale/en_US and locale/fr the list of supported languages will include en-US and fr.
+_Note:_ If you set ['*'] to the supported_languages option, the language codes will be read from the specified translation directory and supported_languages will be updated with the new list. This assumes you have already downloaded or otherwise created these directories yourself. For example, if you have locale/en_US and locale/fr the list of supported languages will include en-US and fr.
 
 ### localeInfo
 
@@ -175,6 +175,14 @@ The `getLanguages` function is used to get a list (array) of supported language 
 
 ```javascript
 var languages = i18n.getLanguages();
+```
+
+### getSupportLanguages
+
+The `getSupportLanguages` function is used to get a list (array) of supported language names based on the lang-Countries found in your translation directory.
+
+```javascript
+var languages = i18n.getSupportLanguages();
 ```
 
 ### format
