@@ -129,7 +129,7 @@ function localeFrom(language) {
  **/
 function languageNameFor(locale) {
   locale = languageFrom(locale);
-  return langMap[locale] ? langMap[locale].name : "Unknown";
+  return langMap[locale] ? langMap[locale]["nativeName"] : "Unknown";
 }
 
 /**
