@@ -132,6 +132,10 @@ module.exports = {
     nativeName: "English (Pirate)",
     englishName: "English (Pirate)"
   },
+  'eo': {
+    nativeName: "Esperanto",
+    englishName: "Esperanto"
+  },
   'eo-EO': {
     nativeName: "Esperanto",
     englishName: "Esperanto"
@@ -340,8 +344,12 @@ module.exports = {
     nativeName: "Kurdî",
     englishName: "Kurdish"
   },
+  'la': {
+    nativeName: "Latin",
+    englishName: "Latin"
+  },
   'la-VA': {
-    nativeName: "lingua",
+    nativeName: "Latin",
     englishName: "Latin"
   },
   'li-NL': {
