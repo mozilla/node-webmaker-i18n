@@ -137,6 +137,7 @@ The `localeInfo` object contains all the locale information listed below:
 If the request comes in as "en-CA"
 
 * `localeInfo.name` = "English (Canada)"
+* `localeInfo.engName` = "English (Canada)"
 * `localeInfo.lang` = "en-CA"
 * `localeInfo.locale` = "en_CA"
 * `localeInfo.momentLang` = "en-ca"
@@ -220,6 +221,18 @@ var languageName = languageNameFor('en-US');
 
 var languageName = languageNameFor('th-TH');
 // The above will return "ไทย"
+```
+
+### languageEnglishName
+
+The `languageEnglishName` function returns the language name based on the locale in English.
+
+``` javascript
+var languageName = languageEnglishName('en-US');
+// The above will return "English (US)"
+
+var languageName = languageEnglishName('th-TH');
+// The above will return "Thai"
 ```
 
 ## Client-Side in the browser

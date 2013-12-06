@@ -125,11 +125,19 @@ function localeFrom(language) {
 }
 
 /**
- * Given a locale, return language name
+ * Given a locale, return native language name e.g. given "th-TH" will return "ภาษาไทย"
  **/
 function languageNameFor(locale) {
   locale = languageFrom(locale);
   return langMap[locale] ? langMap[locale]["nativeName"] : "Unknown";
+}
+
+/**
+ * Given a locale, return English language name e.g. given "th-TH" will return "Thai"
+ **/
+function languageEnglishName(locale) {
+  locale = languageFrom(locale);
+  return langMap[locale] ? langMap[locale]["englishName"] : "Unknown";
 }
 
 /**
@@ -385,6 +393,7 @@ exports.middleware = function(options) {
     // localeInfo object will contain all the necessary informations that we need
     // from the coming request and we will later attached that to the locals and req
     localeInfo.name = languageNameFor(lang);
+    localeInfo.engName = languageEnglishName(lang);
     localeInfo.lang = languageFrom(lang);
     localeInfo.locale = locale;
     localeInfo.momentLang = langToMomentJSLang(lang);
@@ -392,6 +401,7 @@ exports.middleware = function(options) {
 
     locals.localeInfo = localeInfo;
     req.localeInfo = localeInfo;
+    locals.languageEnglishName = languageEnglishName;
     locals.languageNameFor = languageNameFor;
 
     var formatFnName = 'format';
