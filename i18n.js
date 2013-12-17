@@ -305,7 +305,7 @@ exports.middleware = function(options) {
           locale, messages_file_path(locale), e
         );
         console.error(msg);
-        throw msg;
+        return;
       }
     });
     return localeStrings;
@@ -321,8 +321,16 @@ exports.middleware = function(options) {
         'Bad locale=[%s] missing .json files in [%s]. See locale/README (%s)',
         locale, messages_file_path(locale), e
       );
+      // Only console error if bad config then we remove them off from the list so
+      // that we can continue with no problem.
       console.error(msg);
-      throw msg;
+      listSupportedLang = _.remove(listSupportedLang, function(l) {
+        return l !== locale;
+      });
+      options.supported_languages = _.remove(options.supported_languages, function(l) {
+       return l !== locale;
+     });
+      return;
     }
   });
 
