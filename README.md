@@ -1,6 +1,8 @@
 node-webmaker-i18n
 ==================
 
+[![Build Status](https://travis-ci.org/mozilla/node-webmaker-i18n.png)](https://travis-ci.org/mozilla/node-webmaker-i18n)
+
 Webmaker Localization Components for node.js and the browser.
 
 This code is heavily inspired by, and borrows from, [Mozilla's i18n-abide](https://github.com/mozilla/i18n-abide) project.
