@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 var fs = require('fs'),
-    langMap = require("./langmap"),
+    langMap = require("langmap"),
     _ = require("lodash"),
     momentLang = require("./momentLang"),
     path = require('path'),
