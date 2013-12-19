@@ -247,21 +247,23 @@ exports.middleware = function(options) {
     throw new Error("No options passed in the middleware function. Please see the README for more info.");
   } else if (!options.translation_directory) {
     throw new Error("No path to translation_directory specified in the middleware function. Please see the README for more info.");
+  } else if (!options.supported_languages) {
+    throw new Error("No supported_languages option passed. Please see the README for more info.")
+  }
+
+
+  if (options.supported_languages && options.supported_languages.length) {
+    listSupportedLang = options.supported_languages.slice(0);
+    listOfLanguages = options.supported_languages;
+  } else {
+    throw new Error("Please check your supported_languages config.")
   }
   options.mappings = options.mappings || {};
 
   default_lang = options.default_lang || 'en-US';
   default_locale = localeFrom(default_lang);
 
-  if (!options.supported_languages) {
-    options.supported_languages = ['en-US'];
-    listSupportedLang = options.supported_languages.slice(0);
-  } else if (options.supported_languages && options.supported_languages.length) {
-    listSupportedLang = options.supported_languages.slice(0);
-    listOfLanguages = options.supported_languages;
-  } else {
-    throw new Error("Please check your supported_languages config.")
-  }
+
 
   // Use the lang-Countries found in your locale dir without explicitly specifying them.
   if( listSupportedLang.length === 1 && listSupportedLang[0] === '*') {
