@@ -63,7 +63,7 @@ describe("Middleware setup", function (){
 			}).throw();
 		});
 
-		it.skip("should throw an error when only default_lang passed", function(){
+		it("should throw an error when only default_lang passed", function(){
 			should(function (){
 				i18n.middleware({
 					default_lang: 'en-US'
@@ -87,7 +87,7 @@ describe("Middleware setup", function (){
 			}).throw();
 		});
 
-		it.skip("should throw an error when only path to translation_directory passed", function(){
+		it("should throw an error when only path to translation_directory passed", function(){
 			should(function (){
 				i18n.middleware({
 					translation_directory: translationPath
