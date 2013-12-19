@@ -225,6 +225,11 @@ function getStrings(lang) {
   return strings;
 }
 exports.getStrings = getStrings;
+exports.languageFrom = languageFrom;
+exports.localeFrom = localeFrom;
+exports.langToMomentJSLang = langToMomentJSLang;
+exports.languageEnglishName = languageEnglishName;
+exports.languageNameFor = languageNameFor;
 
 /**
  * A route servers can use to expose strings for a given lang:

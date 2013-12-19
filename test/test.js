@@ -176,33 +176,33 @@ describe("API Tests", function (){
 		}).not.throw();
 	});
 
-	it.skip("languageFrom() should return language code en-US => en_US", function(){
+	it("languageFrom() should return language code en_US => en-US", function(){
 		should(function (){
-			i18n.languageFrom('en-US').should.eql('en_US');
+			i18n.languageFrom('en_US').should.eql('en-US');
 		}).not.throw();
 	});
 
-	it.skip("localeFrom() should return locale code en_US => en-US", function(){
+	it("localeFrom() should return locale code en-US => en_US", function(){
 		should(function (){
-			i18n.localeFrom('en_US').should.eql('en-US');
+			i18n.localeFrom('en-US').should.eql('en_US');
 		}).not.throw();
 	});
 
-	it.skip("languageNameFor('en-US') and languageNameFor('th-TH') should return native language name", function(){
+	it("languageNameFor('en-US') and languageNameFor('th-TH') should return native language name", function(){
 		should(function (){
 			i18n.languageNameFor('en-US').should.eql('English (US)');
 			i18n.languageNameFor('th-TH').should.eql('ภาษาไทย');
 		}).not.throw();
 	});
 
-	it.skip("languageEnglishName('en-US') and languageEnglishName('th-TH') should return English language name", function(){
+	it("languageEnglishName('en-US') and languageEnglishName('th-TH') should return English language name", function(){
 		should(function (){
 			i18n.languageEnglishName('en-US').should.eql('English (US)');
 			i18n.languageEnglishName('th-TH').should.eql('Thai');
 		}).not.throw();
 	});
 
-	it.skip("langToMomentJSLang('en-US') and langToMomentJSLang('th-TH') should return moment language code 'en-US' => 'en'", function(){
+	it("langToMomentJSLang('en-US') and langToMomentJSLang('th-TH') should return moment language code 'en-US' => 'en'", function(){
 		should(function (){
 			i18n.langToMomentJSLang('en-US').should.eql('en');
 			i18n.langToMomentJSLang('th-TH').should.eql('th');
