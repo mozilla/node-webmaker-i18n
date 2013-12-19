@@ -48,7 +48,8 @@ app.use(i18n.middleware({
   supported_languages: [
     'en-US', 'th-TH', 'ru'
   ],
-  default_lang: 'en-US'
+  default_lang: 'en-US',
+  translation_directory: path.join( __dirname, 'locale' )
 }));
 ```
 
@@ -83,6 +84,7 @@ app.use(i18n.middleware({
     'en-US', 'en-GB', 'en-CA', 'th-TH', 'ru-RU'
   ],
   default_lang: 'en-US',
+  translation_directory: path.join( __dirname, 'locale' ),
   mappings: {
     'en': 'en-US',
     'th': 'th-TH',
