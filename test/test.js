@@ -71,7 +71,7 @@ describe("Middleware setup", function (){
 			}).throw();
 		});
 
-		it.skip("should throw an error when no path to translation_directory specified", function(){
+		it("should throw an error when no path to translation_directory specified", function(){
 			should(function (){
 				_.merge(localOptions, middlewareOptions);
 				delete localOptions.translation_directory;

@@ -245,8 +245,9 @@ exports.stringsRoute = function(defaultLang) {
 exports.middleware = function(options) {
   if (!options) {
     throw new Error("No options passed in the middleware function. Please see the README for more info.");
+  } else if (!options.translation_directory) {
+    throw new Error("No path to translation_directory specified in the middleware function. Please see the README for more info.");
   }
-  options.translation_directory = options.translation_directory || 'locale/';
   options.mappings = options.mappings || {};
 
   default_lang = options.default_lang || 'en-US';
