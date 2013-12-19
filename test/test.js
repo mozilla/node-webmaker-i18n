@@ -57,7 +57,7 @@ describe("Middleware setup", function (){
 		});
 	});
 	describe("with bad invocation of the middleware", function(done) {
-		it.skip("should throw an error when no option passed", function(){
+		it("should throw an error when no option passed", function(){
 			should(function (){
 				i18n.middleware();
 			}).throw();
