@@ -95,7 +95,7 @@ describe("Middleware setup", function (){
 			}).throw();
 		});
 
-		it.skip("should throw an error when unknown default_lang passed", function(){
+		it("should throw an error when unknown default_lang passed", function(){
 			should(function (){
 				_.merge(localOptions, middlewareOptions);
 				localOptions.default_lang = 'unknown';
