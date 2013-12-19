@@ -60,7 +60,7 @@ This will cause the app to look for three locales on startup:
 * `locale/ru`
 
 You can change the root locale directory by passing `translation_directory` with another path to the
-`middleware` function (`locale/` is the default).  Notice how the language tags have been converted
+`middleware` function.  Notice how the language tags have been converted
 to locale names (i.e., en-US becomes en_US). Each locale directory must have one file named `messages.json`
 which contains the strings for the locale.
 
@@ -209,10 +209,10 @@ The `languageFrom` and `localeFrom` functions convert languages to locales and v
 
 ```javascript
 // en-US (language) to en_US (locale)
-var enUSlocale = fromLanguage('en-US');
+var enUSlocale = localeFrom('en-US');
 
 // en_US (locale) to en-US language)
-var enUSlanguage = fromLocale('en_US');
+var enUSlanguage = languageFrom('en_US');
 ```
 
 ### languageNameFor
