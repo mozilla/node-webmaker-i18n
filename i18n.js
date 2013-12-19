@@ -260,11 +260,6 @@ exports.middleware = function(options) {
   }
   options.mappings = options.mappings || {};
 
-  default_lang = options.default_lang || 'en-US';
-  default_locale = localeFrom(default_lang);
-
-
-
   // Use the lang-Countries found in your locale dir without explicitly specifying them.
   if( listSupportedLang.length === 1 && listSupportedLang[0] === '*') {
 
@@ -282,6 +277,14 @@ exports.middleware = function(options) {
   else if (listSupportedLang.indexOf('*') !== -1 && listSupportedLang.length !== 1) {
     throw new Error("Bad Config - Check your supported_languages field. Please see the README for more details.");
   }
+
+  if (options.default_lang && listSupportedLang.indexOf(options.default_lang) === -1) {
+    throw new Error("An unknown default_lang was passed. Please check your config or see the README for more details.")
+  }
+  default_lang = options.default_lang || "en-US";
+  default_locale = localeFrom(default_lang);
+
+
 
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
