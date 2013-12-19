@@ -11,7 +11,8 @@
     "webmaker"
   ],
   "dependencies": {
-    "lodash": "2.2.1"
+    "lodash": "2.2.1",
+    "langmap": "latest"
   },
   "devDependencies": {
     "mocha": "~1.15.1",
