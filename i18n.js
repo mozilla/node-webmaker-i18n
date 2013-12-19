@@ -243,7 +243,9 @@ exports.stringsRoute = function(defaultLang) {
  * headers or URLs, and provides `gettext` and `format` to other middleware functions.
  */
 exports.middleware = function(options) {
-  options = options || {};
+  if (!options) {
+    throw new Error("No options passed in the middleware function. Please see the README for more info.");
+  }
   options.translation_directory = options.translation_directory || 'locale/';
   options.mappings = options.mappings || {};
 
