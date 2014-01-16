@@ -1,6 +1,7 @@
 var should = require('should'),
     i18n = require("../"),
     request = require("superagent"),
+    fs = require("fs"),
     _ = require("lodash"),
     path = require("path"),
     translationPath = path.join(__dirname, '../example/locale'),
@@ -23,8 +24,7 @@ describe("Middleware setup", function () {
       should(function () {
         _.merge(localOptions, middlewareOptions);
         i18n.middleware(localOptions);
-      }).not.
-      throw ();
+      }).not.throw ();
     });
 
     it("should not throw when passed default options without default_lang", function () {
@@ -32,8 +32,7 @@ describe("Middleware setup", function () {
         _.merge(localOptions, middlewareOptions);
         delete localOptions.default_lang;
         i18n.middleware(localOptions);
-      }).not.
-      throw ();
+      }).not.throw ();
     });
 
     it("should not throw when passed default options without mappings", function () {
@@ -41,8 +40,7 @@ describe("Middleware setup", function () {
         _.merge(localOptions, middlewareOptions);
         delete localOptions.mappings;
         i18n.middleware(localOptions);
-      }).not.
-      throw ();
+      }).not.throw ();
     });
 
     it("should not throw when passed default options with 'en-CA' as default_lang", function () {
@@ -50,8 +48,7 @@ describe("Middleware setup", function () {
         _.merge(localOptions, middlewareOptions);
         localOptions.default_lang = 'en-CA';
         i18n.middleware(localOptions);
-      }).not.
-      throw ();
+      }).not.throw ();
     });
 
     it("should not throw when passed default options with '*' enabled in supported_languages", function () {
@@ -59,16 +56,14 @@ describe("Middleware setup", function () {
         _.merge(localOptions, middlewareOptions);
         localOptions.supported_languages = ['*'];
         i18n.middleware(localOptions);
-      }).not.
-      throw ();
+      }).not.throw ();
     });
   });
   describe("with bad invocation of the middleware", function (done) {
     it("should throw an error when no option passed", function () {
       should(function () {
         i18n.middleware();
-      }).
-      throw ();
+      }).throw ();
     });
 
     it("should throw an error when only default_lang passed", function () {
@@ -76,8 +71,7 @@ describe("Middleware setup", function () {
         i18n.middleware({
           default_lang: 'en-US'
         });
-      }).
-      throw ();
+      }).throw ();
     });
 
     it("should throw an error when no path to translation_directory specified", function () {
@@ -85,8 +79,7 @@ describe("Middleware setup", function () {
         _.merge(localOptions, middlewareOptions);
         delete localOptions.translation_directory;
         i18n.middleware(localOptions);
-      }).
-      throw ();
+      }).throw ();
     });
 
     it("should throw an error when empty array of supported_languages passed", function () {
@@ -94,8 +87,7 @@ describe("Middleware setup", function () {
         _.merge(localOptions, middlewareOptions);
         localOptions.supported_languages.length = 0;
         i18n.middleware(localOptions);
-      }).
-      throw ();
+      }).throw ();
     });
 
     it("should throw an error when only path to translation_directory passed", function () {
@@ -103,8 +95,7 @@ describe("Middleware setup", function () {
         i18n.middleware({
           translation_directory: translationPath
         });
-      }).
-      throw ();
+      }).throw ();
     });
 
     it("should throw an error when unknown default_lang passed", function () {
@@ -112,8 +103,7 @@ describe("Middleware setup", function () {
         _.merge(localOptions, middlewareOptions);
         localOptions.default_lang = 'unknown';
         i18n.middleware(localOptions);
-      }).
-      throw ();
+      }).throw ();
     });
 
   });
@@ -132,8 +122,7 @@ describe("API Tests", function () {
     should(function () {
       i18n.getStrings('en-CA').should.be.an.instanceOf(Object)
         .and.not.empty;
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("stringsRoute() should return json object when request url: (http://localhost:8000/strings/en-US)", function (done) {
@@ -142,8 +131,7 @@ describe("API Tests", function () {
         res.body.should.be.an.instanceof(Object).and.not.empty;
         done();
       });
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("getLocales() should return list of locales in array format", function () {
@@ -151,8 +139,7 @@ describe("API Tests", function () {
       i18n.getLocales().should.be.an.instanceOf(Array)
         .and.include('en_US', 'en')
         .and.not.include('en-US');
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("getLanguages() should return list of languages in array format", function () {
@@ -160,8 +147,7 @@ describe("API Tests", function () {
       i18n.getLanguages().should.be.an.instanceOf(Array)
         .and.include('en-US', 'en')
         .and.not.include('en_US');
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("getSupportLanguages() should list of languages in an array format based on the lang-Countries", function () {
@@ -169,8 +155,7 @@ describe("API Tests", function () {
       i18n.getSupportLanguages().should.be.an.instanceOf(Array)
         .and.include('en-US')
         .and.not.include('en');
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("Named: format('%(a)s %(b)s', {a: 'Hello', b: 'World'}) without boolean set and should return 'Hello World'", function () {
@@ -180,8 +165,7 @@ describe("API Tests", function () {
         b: 'World'
       })
         .should.eql("Hello World");
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("Named: format('%(a)s %(b)s', {a: 'Hello', b: 'World'}, true) with boolean set and should return 'Hello World'", function () {
@@ -191,54 +175,60 @@ describe("API Tests", function () {
         b: 'World'
       }, true)
         .should.eql("Hello World");
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("Positional: format('%s %s', ['Hello', 'World']) should return 'Hello World'", function () {
     should(function () {
       i18n.format("%s %s", ["Hello", "World"])
         .should.eql("Hello World");
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("languageFrom() should return language code en_US => en-US", function () {
     should(function () {
       i18n.languageFrom('en_US').should.eql('en-US');
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("localeFrom() should return locale code en-US => en_US", function () {
     should(function () {
       i18n.localeFrom('en-US').should.eql('en_US');
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("languageNameFor('en-US') and languageNameFor('th-TH') should return native language name", function () {
     should(function () {
       i18n.languageNameFor('en-US').should.eql('English (US)');
       i18n.languageNameFor('th-TH').should.eql('ภาษาไทย');
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("languageEnglishName('en-US') and languageEnglishName('th-TH') should return English language name", function () {
     should(function () {
       i18n.languageEnglishName('en-US').should.eql('English (US)');
       i18n.languageEnglishName('th-TH').should.eql('Thai');
-    }).not.
-    throw ();
+    }).not.throw ();
   });
 
   it("langToMomentJSLang('en-US') and langToMomentJSLang('th-TH') should return moment language code 'en-US' => 'en'", function () {
     should(function () {
       i18n.langToMomentJSLang('en-US').should.eql('en');
       i18n.langToMomentJSLang('th-TH').should.eql('th');
-    }).not.
-    throw ();
+    }).not.throw ();
+  });
+
+  it("readLangDir(pathToDir, langList) should return a clean list of supported_languages", function () {
+    should(function () {
+      var list = ['en_US', 'en_CA', '.DS_Store'];
+      var pathToDir = path.join(__dirname, "../example/locale");
+      var pathToDsStore = path.join(pathToDir, '.DS_Store');
+      fs.writeFile(pathToDsStore, "something", 'utf-8', function () {
+        list = i18n.readLangDir(pathToDir, list);
+        list.should.eql(['en-US', 'en-CA']);
+        fs.unlinkSync(pathToDsStore);
+      });
+    }).not.throw ();
   });
 
 });
