@@ -161,6 +161,18 @@ function languageFrom(locale) {
   }
 }
 
+function readLangDir(pathToDir, langList) {
+  langList.forEach(function(lang, i) {
+    var stat = fs.statSync(path.join(pathToDir, lang));
+    if(!stat.isDirectory()) {
+     langList = _.without(langList, lang);
+    } else {
+      langList[i] = languageFrom(lang);
+    }
+  });
+  return langList;
+}
+
 /**
  * The format function provides string interpolation on the client and server side.
  * It can be used with either an object for named variables, or an array
@@ -230,6 +242,7 @@ exports.localeFrom = localeFrom;
 exports.langToMomentJSLang = langToMomentJSLang;
 exports.languageEnglishName = languageEnglishName;
 exports.languageNameFor = languageNameFor;
+exports.readLangDir = readLangDir;
 
 /**
  * A route servers can use to expose strings for a given lang:
@@ -271,10 +284,9 @@ exports.middleware = function(options) {
     // Read the translation_directory and get all the language codes
     listSupportedLang = fs.readdirSync(options.translation_directory);
 
-    // Change the locale to lang e.g. en_US ==> en-US
-    for (var i = listSupportedLang.length - 1; i >= 0; i--) {
-      listSupportedLang[i] = languageFrom(listSupportedLang[i]);
-    };
+    // Read and process translation directory that was given and do some clean up.
+    listSupportedLang = readLangDir(options.translation_directory, listSupportedLang);
+
     options.supported_languages = listSupportedLang.slice(0);
     listOfLanguages = options.supported_languages;
   }
