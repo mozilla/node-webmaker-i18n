@@ -218,6 +218,18 @@ exports.getSupportLanguages = function() {
 };
 
 /**
+* Given an object in this format { "en-US" { keys:values}, "th-TH" { keys:values} } will add them to an existing
+* translations object which should allow dynamic translation object.
+**/
+exports.addLocaleOjbect = function(object, callback) {
+  listOfLanguages.forEach(function(locale) {
+    var l = localeFrom(locale);
+    _.extend(translations[l], object[locale]);
+  });
+  callback(true);
+};
+
+/**
  * Returns a copy of the translated strings for the given language.
  **/
 function getStrings(lang) {
