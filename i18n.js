@@ -9,7 +9,7 @@ var fs = require('fs'),
     path = require('path'),
     util = require('util');
 
-var BIDI_RTL_LANGS = ['ar', 'fa', 'he'],
+var BIDI_RTL_LANGS = [ "ar", "ar_SA", "fa", "fa_IR", "he", "he_IL", "nqo", "ur", "ur_PK" ],
     translations = {},
     default_lang = 'en-US',
     default_locale = 'en_US',
