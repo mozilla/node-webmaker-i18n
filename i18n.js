@@ -218,15 +218,26 @@ exports.getSupportLanguages = function() {
 };
 
 /**
-* Given an object in this format { "en-US" { keys:values}, "th-TH" { keys:values} } will add them to an existing
+* Given an object in this format { "en-US": { keys:values}, "th-TH": { keys:values} } will add them to an existing
 * translations object which should allow dynamic translation object.
 **/
 exports.addLocaleObject = function(object, callback) {
+  var errFlag, error;
+
   listOfLanguages.forEach(function(locale) {
     var l = localeFrom(locale);
-    _.extend(translations[l], object[locale]);
+    try {
+      _.extend(translations[l], object[locale]);
+    } catch(e) {
+      errFlag = true;
+      error = e;
+    }
   });
-  callback(true);
+
+  if(!errFlag) {
+    callback(error, false);
+  }
+  callback(null, true);
 };
 
 /**
