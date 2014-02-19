@@ -218,6 +218,16 @@ describe("API Tests", function () {
     }).not.throw ();
   });
 
+  it("addLocaleObject({ 'en-US': { keys:'somevalue'}}, cb)", function () {
+    should(function () {
+      i18n.addLocaleObject({'en-US': { "myName": "Ali Al Dallal"}}, function(err, res) {
+        if(res) {
+          i18n.getStrings("en-US").should.have.property('myName');
+        }
+      });
+    }).not.throw ();
+  });
+
   it("readLangDir(pathToDir, langList) should return a clean list of supported_languages", function () {
     should(function () {
       var list = ['en_US', 'en_CA', '.DS_Store'];
