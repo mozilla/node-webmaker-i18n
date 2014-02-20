@@ -84,6 +84,7 @@ app.use(i18n.middleware({
     'en-US', 'en-GB', 'en-CA', 'th-TH', 'ru-RU'
   ],
   default_lang: 'en-US',
+  warnings: true,
   translation_directory: path.join( __dirname, 'locale' ),
   mappings: {
     'en': 'en-US',
@@ -96,6 +97,7 @@ app.use(i18n.middleware({
 Here 8 languages are identified, 5 locale-based, and 3 defaults with no locale. Using such mappings,
 users can request `th` or `th-TH` and get the same result. NOTE: no mappings are applied by default.
 
+**warnings** option is set to `false` by default. This option will enable language mapping console debug to see if the language that you are mapped to is successfully configured.
 
 #### Global enabling langauges
 
