@@ -21,7 +21,7 @@
     "express": "~3.2.0"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --reporter spec tests"
   },
   "author": "The Webmaker Team <webmaker-dev@mozilla.org>",
   "license": "MPL-2.0"

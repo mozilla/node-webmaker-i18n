@@ -225,6 +225,9 @@ exports.getSupportLanguages = function() {
 exports.addLocaleObject = function(object, callback) {
   var errFlag, error;
 
+  if(!listOfLanguages) {
+    throw new Error("listOfLanguages is undefied - Please use addLocaleObject() after middleware() setup.");
+  }
   listOfLanguages.forEach(function(locale) {
     var l = localeFrom(locale);
     try {
