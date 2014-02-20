@@ -20,6 +20,7 @@ var supportedLanguages = ['en-US', 'en-CA'];
 app.use( i18n.middleware({
   supported_languages: supportedLanguages,
   default_lang: 'en-US',
+  warnings: true,
   translation_directory: path.join( __dirname, 'locale' ),
   mappings: {
     'en': 'en-CA'

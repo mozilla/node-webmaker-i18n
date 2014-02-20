@@ -9,7 +9,7 @@
   "dependencies": {
     "express": "~3.2.0",
     "bower": "~1.0.0",
-    "nunjucks": "git://github.com/jlongster/nunjucks.git#0fc9622f3471d67058e431f765bc45d928d23a61"
+    "nunjucks": "~1.0.1"
   },
   "author": "The Webmaker Team <webmaker-dev@mozilla.org>",
   "license": "MPL-2.0"

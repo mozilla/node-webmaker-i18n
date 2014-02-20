@@ -14,7 +14,8 @@ var BIDI_RTL_LANGS = [ "ar", "ar_SA", "fa", "fa_IR", "he", "he_IL", "nqo", "ur",
     default_lang = 'en-US',
     default_locale = 'en_US',
     listSupportedLang,
-    listOfLanguages;
+    listOfLanguages,
+    warnings;
 
 function gettext(sid, locale) {
   if (translations[locale][sid] && translations[locale][sid].length) {
@@ -323,8 +324,7 @@ exports.middleware = function(options) {
   }
   default_lang = options.default_lang || "en-US";
   default_locale = localeFrom(default_lang);
-
-
+  warnings = !!options.warnings;
 
   function messages_file_path(locale) {
     return path.resolve(path.join(__dirname, '..', '..', '..'),
@@ -386,7 +386,7 @@ exports.middleware = function(options) {
   Object.keys(options.mappings).forEach(function(dynamicLang) {
     var mapping = options.mappings[dynamicLang];
     var locale = localeFrom(mapping);
-    if (!translations[locale]) {
+    if (!translations[locale] && warnings) {
       console.error('Unknown language mapping [%s] -> [%s], skipping.', dynamicLang, mapping);
       return;
     }
