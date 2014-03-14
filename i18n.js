@@ -18,11 +18,21 @@ var BIDI_RTL_LANGS = [ "ar", "ar_SA", "fa", "fa_IR", "he", "he_IL", "nqo", "ur",
     warnings;
 
 function gettext(sid, locale) {
-  if (translations[locale][sid] && translations[locale][sid].length) {
-    return translations[locale][sid];
+  var localeTranslation = translations[locale][sid],
+    defaultLocaleTranslation = translations[default_locale][sid];
+
+  if (localeTranslation) {
+    if (localeTranslation.message) {
+      return localeTranslation.message;
+    }
+    return localeTranslation;
+  } else if (defaultLocaleTranslation) {
+    if (defaultLocaleTranslation.message) {
+      return defaultLocaleTranslation.message
+    }
+    return defaultLocaleTranslation;
   }
-  // Return the default lang's string if missing in the translation.
-  return (translations[default_locale][sid]) || sid;
+  return sid;
 }
 
 function qualityCmp(a, b) {
