@@ -148,6 +148,14 @@ If the request comes in as "en-CA"
 * `localeInfo.locale` = "en_CA"
 * `localeInfo.momentLang` = "en-ca"
 * `localeInfo.direction` = "ltr"
+* `localeInfo.langPrefs` = "[ 'en', 'es' ]"
+* `localeInfo.alternateLangs` = "['en']"
+
+Note:
+
+* `localeInfo.langPrefs` is returned by `req.headers['accept-language']`. We parse only the next preferred language from the list exluding first element in array.
+* `localeInfo.alternateLangs` is a list of matched supported language compared to `localeInfo.langPrefs`. In other words, `alternateLangs` is a list of other locales/langs that were specified in accept-langauge and are also supported in the current instance..
+
 
 ### getStrings
 
