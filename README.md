@@ -249,6 +249,38 @@ var languageName = languageEnglishName('th-TH');
 // The above will return "Thai"
 ```
 
+### getAllLocaleCodes
+
+The `getAllLocaleCodes` function returns all locales, language name in native and English version.
+
+``` javascript
+var i18n = require("webmaker-i18n");
+
+var allCodes = i18n.getAllLocaleCodes;
+console.log(allCodes);
+
+{
+  ...
+  ...
+  'ta': { nativeName: 'தமிழ்', englishName: 'Tamil' },
+  'ta-IN': { nativeName: 'தமிழ்', englishName: 'Tamil' },
+  te: { nativeName: 'తెలుగు', englishName: 'Telugu' },
+  'te-IN': { nativeName: 'తెలుగు', englishName: 'Telugu' },
+  'tg-TJ': { nativeName: 'тоҷикӣ', englishName: 'Tajik' },
+  'th-TH': { nativeName: 'ภาษาไทย', englishName: 'Thai' },
+  tl: { nativeName: 'Filipino', englishName: 'Filipino' },
+  'tl-PH': { nativeName: 'Filipino', englishName: 'Filipino' },
+  'tl-ST': { nativeName: 'tlhIngan-Hol', englishName: 'Klingon' },
+  'tr-TR': { nativeName: 'Türkçe', englishName: 'Turkish' },
+  'tt-RU': { nativeName: 'татарча', englishName: 'Tatar' },
+  'uk': { nativeName: 'Українська', englishName: 'Ukrainian' },
+  'uk-UA': { nativeName: 'Українська', englishName: 'Ukrainian' }
+  ...
+  ...
+}
+
+```
+
 ## Client-Side in the browser
 
 Install the browser `localized.js` script using bower:
