@@ -1,6 +1,6 @@
 {
   "name": "webmaker-i18n",
-  "version": "0.3.14",
+  "version": "0.3.15",
   "description": "Webmaker Localization Components for node.js and the browser",
   "main": "./i18n.js",
   "repository": {
