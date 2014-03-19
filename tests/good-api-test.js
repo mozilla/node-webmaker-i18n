@@ -148,6 +148,12 @@ describe("API Tests", function () {
     }).not.throw ();
   });
 
+  it("getAllLocaleCodes() should return object list of all known locales", function () {
+    should(function () {
+      i18n.getAllLocaleCodes().should.be.an.instanceof(Object).and.not.empty;
+    }).not.throw ();
+  });
+
   it("readLangDir(pathToDir, langList) should return a clean list of supported_languages", function () {
     should(function () {
       var list = ['en_US', 'en_CA', '.DS_Store'];
