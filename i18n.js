@@ -280,6 +280,7 @@ exports.langToMomentJSLang = langToMomentJSLang;
 exports.languageEnglishName = languageEnglishName;
 exports.languageNameFor = languageNameFor;
 exports.readLangDir = readLangDir;
+exports.getAllLocaleCodes = langMap;
 
 /**
  * A route servers can use to expose strings for a given lang:
