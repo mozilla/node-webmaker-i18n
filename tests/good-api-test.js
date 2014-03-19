@@ -136,6 +136,18 @@ describe("API Tests", function () {
     }).not.throw ();
   });
 
+  it("getOtherLangPrefs([ { lang: 'th', quality: 1 }, { lang: 'en', quality: 0.8 }, { lang: 'es', quality: 0.6 } ]) should return ['en', 'es']", function () {
+    should(function () {
+      i18n.getOtherLangPrefs([ { lang: 'th', quality: 1 }, { lang: 'en', quality: 0.8 }, { lang: 'es', quality: 0.6 } ]).should.eql(['en', 'es']);
+    }).not.throw ();
+  });
+
+  it("getAlternateLangSupport(['th', 'en-CA', 'es', 'fr', 'ar'], ['en-US', 'en-CA', 'th']) should return ['th', 'en-CA']", function () {
+    should(function () {
+      i18n.getAlternateLangSupport(['th', 'en-CA', 'es', 'fr', 'ar'], ['en-US', 'en-CA', 'th']).should.eql(['th', 'en-CA']);
+    }).not.throw ();
+  });
+
   it("readLangDir(pathToDir, langList) should return a clean list of supported_languages", function () {
     should(function () {
       var list = ['en_US', 'en_CA', '.DS_Store'];
