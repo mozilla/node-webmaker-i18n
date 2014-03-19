@@ -281,6 +281,8 @@ exports.languageEnglishName = languageEnglishName;
 exports.languageNameFor = languageNameFor;
 exports.readLangDir = readLangDir;
 exports.getAllLocaleCodes = langMap;
+exports.getOtherLangPrefs = getOtherLangPrefs;
+exports.getAlternateLangSupport = getAlternateLangSupport;
 
 /**
  * A route servers can use to expose strings for a given lang:
@@ -293,6 +295,25 @@ exports.stringsRoute = function(defaultLang) {
     res.jsonp( getStrings( req.params.lang || req.localeInfo.lang || defaultLang ) );
   };
 };
+
+// Given  [ { lang: 'th', quality: 1 }, { lang: 'en', quality: 0.8 }, { lang: 'es', quality: 0.6 } ]
+// We will remove first element and return next preferred languages in array format ['en', 'es']
+function getOtherLangPrefs(languages) {
+  return languages.slice(1).map(function(item) { return item.lang; });
+}
+
+// Given user's otherLangPrefs ['th', 'en-CA', 'es', 'fr', 'ar'] we compare with our
+// currentSupportLang ['en-US', 'en-CA', 'th'] and return match found.
+// ['th', 'en-CA']
+function getAlternateLangSupport(otherLangPrefs, currentSupportLang) {
+  var support = [];
+  otherLangPrefs.forEach(function(lang) {
+    if(currentSupportLang.indexOf(lang) !== -1) {
+      support.push(lang);
+    }
+  });
+  return support;
+}
 
 /**
  * Middleware function for Express web apps, which deals with locales on
@@ -442,25 +463,6 @@ exports.middleware = function(options) {
     return options.mappings[lang] || lang;
   }
 
-  // Given  [ { lang: 'th', quality: 1 }, { lang: 'en', quality: 0.8 }, { lang: 'es', quality: 0.6 } ]
-  // We will remove first element and return next preferred languages in array format ['en', 'es']
-  function getOtherLangPrefs(languages) {
-    return languages.slice(1).map(function(item) { return item.lang; });
-  }
-
-  // Given user's otherLangPrefs ['th', 'en-CA', 'es', 'fr', 'ar'] we compare with our
-  // currentSupportLang ['en-US', 'en-CA', 'th'] and return match found.
-  // ['th', 'en-CA']
-  function getAlternateLangSupport(otherLangPrefs, currentSupportLang) {
-    var support = [];
-    otherLangPrefs.forEach(function(lang) {
-      if(currentSupportLang.indexOf(lang) !== -1) {
-        support.push(lang);
-      }
-    });
-    return support;
-  }
-
   return function(req, resp, next) {
     checkUrlLocale(req);
 
@@ -488,7 +490,7 @@ exports.middleware = function(options) {
     localeInfo.momentLang = langToMomentJSLang(lang);
     localeInfo.direction = lang_dir;
     localeInfo.otherLangPrefs = getOtherLangPrefs(langs);
-    localeInfo.alternateLangs = getAlternateLangSupport(localeInfo.langPrefs, listOfLanguages)
+    localeInfo.alternateLangs = getAlternateLangSupport(localeInfo.otherLangPrefs, listOfLanguages)
 
     locals.localeInfo = localeInfo;
     req.localeInfo = localeInfo;
