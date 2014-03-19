@@ -280,7 +280,7 @@ exports.langToMomentJSLang = langToMomentJSLang;
 exports.languageEnglishName = languageEnglishName;
 exports.languageNameFor = languageNameFor;
 exports.readLangDir = readLangDir;
-exports.getAllLocaleCodes = langMap;
+exports.getAllLocaleCodes = function() { return langMap; };
 exports.getOtherLangPrefs = getOtherLangPrefs;
 exports.getAlternateLangSupport = getAlternateLangSupport;
 
