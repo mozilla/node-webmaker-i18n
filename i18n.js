@@ -249,9 +249,9 @@ exports.addLocaleObject = function(object, callback) {
   });
 
   if(!errFlag) {
-    callback(error, false);
+    return callback(error);
   }
-  callback(null, true);
+  callback();
 };
 
 /**
