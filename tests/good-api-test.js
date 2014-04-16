@@ -105,6 +105,30 @@ describe("API Tests", function () {
     }).not.throw ();
   });
 
+  it("localeFrom() should return locale code en_US => en_US", function () {
+    should(function () {
+      i18n.localeFrom('en_US').should.eql('en_US');
+    }).not.throw ();
+  });
+
+  it("i18n.gettext('_Hello_World_', 'en_US') should return Hello World", function () {
+    should(function () {
+      i18n.gettext('_Hello_World_', 'en_US').should.eql('Hello World');
+    }).not.throw ();
+  });
+
+  it("i18n.gettext('_Hello_World_', 'en-US') should return Hello World", function () {
+    should(function () {
+      i18n.gettext('_Hello_World_', 'en-US').should.eql('Hello World');
+    }).not.throw ();
+  });
+
+  it("i18n.gettext('_Hello_', 'en-US') should return _Hello_", function () {
+    should(function () {
+      i18n.gettext('_Hello_', 'en-US').should.eql('_Hello_');
+    }).not.throw ();
+  });
+
   it("languageNameFor('en-US') and languageNameFor('th-TH') should return native language name", function () {
     should(function () {
       i18n.languageNameFor('en-US').should.eql('English (US)');

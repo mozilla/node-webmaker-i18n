@@ -18,7 +18,7 @@ var BIDI_RTL_LANGS = [ "ar", "ar_SA", "fa", "fa_IR", "he", "he_IL", "nqo", "ur",
     warnings;
 
 function gettext(sid, locale) {
-  var localeTranslation = translations[locale][sid],
+  var localeTranslation = translations[localeFrom(locale)][sid],
     defaultLocaleTranslation = translations[default_locale][sid];
 
   if (localeTranslation) {
@@ -119,6 +119,9 @@ function bestLanguage(languages, supported_languages, defaultLanguage) {
 function localeFrom(language) {
   if (! language || ! language.split) {
     return "";
+  }
+  if (language.indexOf("-") === -1) {
+    return language;
   }
   var parts = language.split('-');
   if (parts.length === 1) {
@@ -283,6 +286,7 @@ exports.readLangDir = readLangDir;
 exports.getAllLocaleCodes = function() { return langMap; };
 exports.getOtherLangPrefs = getOtherLangPrefs;
 exports.getAlternateLangSupport = getAlternateLangSupport;
+exports.gettext = gettext;
 
 /**
  * A route servers can use to expose strings for a given lang:

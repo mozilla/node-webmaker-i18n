@@ -175,6 +175,16 @@ argument, the default language to use (defaults to "en-US" if missing). It can b
 app.get( "/strings/:lang?", i18n.stringsRoute( "en-US" ) );
 ```
 
+### gettext
+
+The `gettext` is expose to help get a specific string. It takes two arguement, key name and locale/language code.
+
+```javascript
+var someString = i18n.gettext("keyName", "language code or locale code here");
+```
+
+Note: This gettext is the same gettext that you can use in `request` scope, but this will allow you to use without server is running.
+
 ### getLocales
 
 The `getLocales` function is used to get a list (array) of supported locale names, and matches the
