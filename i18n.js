@@ -375,7 +375,7 @@ exports.middleware = function(options) {
     // and add them to a single object then return them.
     fs.readdirSync(localePath).forEach(function(fileName) {
       // Check if the file extension is .json
-      if( !fileName.match(/\.json$/) ) {
+      if( !fileName.match(/\.json$/) || fileName.match(/^meta-/)) {
         return;
       }
       fullPath = path.join(localePath, fileName);
