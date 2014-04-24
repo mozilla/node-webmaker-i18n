@@ -435,13 +435,16 @@ exports.middleware = function(options) {
     listSupportedLang.push(dynamicLang);
   });
 
-  function checkUrlLocale(req) {
+  // We override the requested locale in a number of situations, and in the following order:
+  // 1) If the user provides a locale we support as the first part of the URL, we override and use it
+  // 2) If the user has a preferred locale set on their session (via cookie), we override use it
+  function processLocaleOverrides(req) {
     // Given a URL, http://foo.com/ab/xyz/, we check to see if the first directory
     // is actually a locale we know about, and if so, we strip it out of the URL
     // (i.e., URL becomes http://foo.com/xyz/) and store that locale info on the
     // request's accept-header.
-    var matches = req.url.match(/^\/([^\/]+)(\/|$)/);
-    if (!(matches && matches[1])) {
+    var matches = req.url.match(/^\/([^\/]*)(\/|$)/);
+    if (!matches) {
       return;
     }
 
@@ -453,7 +456,9 @@ exports.middleware = function(options) {
                             listSupportedLang,
                             "unknown");
     if (lang === "unknown") {
-      if(req.session && req.session.user) {
+      // Check to see if we have a preferred locale in the user's session
+      // (i.e., set via Login server in user's session cookie)
+      if(req && req.session && req.session.user && req.session.user.prefLocale) {
         req.headers['accept-language'] = req.session.user.prefLocale;
       }
       return;
@@ -471,7 +476,7 @@ exports.middleware = function(options) {
   }
 
   return function(req, resp, next) {
-    checkUrlLocale(req);
+    processLocaleOverrides(req);
 
     var langs = parseAcceptLanguage(req.headers['accept-language']),
         lang_dir,

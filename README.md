@@ -70,6 +70,16 @@ with additional features. These include:
 * `gettext` - a function used to get a localized string for a given key
 * `format` - a function used to interpolate strings (see below)
 
+#### Cookie Session locale support
+
+If have more than one server and want to share user's preferred locale you have to setup `middleware` before `express cookieSession()` and make sure you have `locale` set in `req.session.user.prefLocale`.
+
+The language serving is in this order:
+
+1. Locale in the URL
+2. 2. Locale in session (i.e., `req.session.user.prefLocale` from user's session cookie)
+3. 3. Locale in browser's request headers
+
 #### Dynamic Mappings
 
 Often one wants to map locale-specific languages to a default.  For example, if there are 3 locales specified
