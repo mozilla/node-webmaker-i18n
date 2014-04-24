@@ -453,6 +453,9 @@ exports.middleware = function(options) {
                             listSupportedLang,
                             "unknown");
     if (lang === "unknown") {
+      if(req.session && req.session.user) {
+        req.headers['accept-language'] = req.session.user.prefLocale;
+      }
       return;
     }
 
