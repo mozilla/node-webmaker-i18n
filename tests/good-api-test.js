@@ -1,6 +1,6 @@
 
 var i18n = require("../");
-var should = require('should');
+var should = require('should'),
 path = require("path"),
 translationPath = path.join(__dirname, '../example/locale'),
 middlewareOptions = {
@@ -11,35 +11,170 @@ middlewareOptions = {
     'en': 'en-US'
   }
 },
-localOptions = {},
-request = require("superagent"),
-fs = require("fs"),
-server = require('./server')(i18n);
+fs = require("fs");
+var request = require('supertest'),
+    express = require('express');
+
+    var app = express();
 
 describe("API Tests", function () {
 
   before(function (done) {
-    i18n.middleware(middlewareOptions);
-    server.listen(8000, done);
+    app.use(i18n.middleware(middlewareOptions));
+
+    app.get('/', function(req, res) {
+      res.send(req.localeInfo);
+    });
+
+    app.get('/test', function(req, res) {
+      res.send(req.localeInfo);
+    });
+    app.get('/css/file.css', function(req, res) {
+      res.send(req.localeInfo);
+    });
+    app.get('/strings/en-US', i18n.stringsRoute());
+
+    done();
   });
-  after(function (done) {
-    server.close(done);
-  });
+
+  describe('GET /strings/en-US', function(){
+    it('should return object with status 200', function(done){
+      request(app)
+        .get('/strings/en-US')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.should.be.an.instanceOf(Object)
+            .and.not.empty;
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /', function(){
+    it('should return language en-US with status 200', function(done){
+      request(app)
+        .get('/')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-US");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /en-US', function(){
+    it('should return language en-US with status 200', function(done){
+      request(app)
+        .get('/en-US')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-US");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /en-CA', function(){
+    it('should return language en-CA with status 200', function(done){
+      request(app)
+        .get('/en-CA')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-CA");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /en-CA/', function(){
+    it('should return language en-CA with status 200', function(done){
+      request(app)
+        .get('/en-CA')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-CA");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /test/', function(){
+    it('should return language en-US with status 200', function(done){
+      request(app)
+        .get('/test/')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-US");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /en-US/test/', function(){
+    it('should return language en-US with status 200', function(done){
+      request(app)
+        .get('/en-US/test/')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-US");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /en-CA/test/', function(){
+    it('should return language en-CA with status 200', function(done){
+      request(app)
+        .get('/en-CA/test/')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-CA");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /en-CA/test', function(){
+    it('should return language en-CA with status 200', function(done){
+      request(app)
+        .get('/en-CA/test')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-CA");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /css/file.css', function(){
+    it('should return language en-US with status 200', function(done){
+      request(app)
+        .get('/css/file.css')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-US");
+        })
+        .expect(200, done);
+    })
+  })
+
+  describe('GET /en-CA/css/file.css', function(){
+    it('should return language en-US with status 200', function(done){
+      request(app)
+        .get('/en-CA/css/file.css')
+        .set('Accept', 'application/json')
+        .expect(function(res) {
+          res.body.lang.should.eql("en-CA");
+        })
+        .expect(200, done);
+    })
+  })
 
   it("getStrings() should return translated object for the specified languages", function () {
     should(function () {
       i18n.getStrings('en-CA').should.be.an.instanceOf(Object)
         .and.not.empty;
-    }).not.throw ();
-  });
-
-  it("stringsRoute() should return json object when request url: (http://localhost:8000/strings/en-US)", function (done) {
-    should(function () {
-      request.get("http://localhost:8000/strings/en-US", function (res) {
-        res.body.should.be.an.instanceof(Object).and.not.empty;
-        done();
-      });
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("getLocales() should return list of locales in array format", function () {
@@ -47,7 +182,7 @@ describe("API Tests", function () {
       i18n.getLocales().should.be.an.instanceOf(Array)
         .and.include('en_US', 'en')
         .and.not.include('en-US');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("getLanguages() should return list of languages in array format", function () {
@@ -55,7 +190,7 @@ describe("API Tests", function () {
       i18n.getLanguages().should.be.an.instanceOf(Array)
         .and.include('en-US', 'en')
         .and.not.include('en_US');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("getSupportLanguages() should list of languages in an array format based on the lang-Countries", function () {
@@ -63,7 +198,7 @@ describe("API Tests", function () {
       i18n.getSupportLanguages().should.be.an.instanceOf(Array)
         .and.include('en-US')
         .and.not.include('en');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("Named: format('%(a)s %(b)s', {a: 'Hello', b: 'World'}) without boolean set and should return 'Hello World'", function () {
@@ -73,7 +208,7 @@ describe("API Tests", function () {
         b: 'World'
       })
         .should.eql("Hello World");
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("Named: format('%(a)s %(b)s', {a: 'Hello', b: 'World'}, true) with boolean set and should return 'Hello World'", function () {
@@ -83,71 +218,71 @@ describe("API Tests", function () {
         b: 'World'
       }, true)
         .should.eql("Hello World");
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("Positional: format('%s %s', ['Hello', 'World']) should return 'Hello World'", function () {
     should(function () {
       i18n.format("%s %s", ["Hello", "World"])
         .should.eql("Hello World");
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("languageFrom() should return language code en_US => en-US", function () {
     should(function () {
       i18n.languageFrom('en_US').should.eql('en-US');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("localeFrom() should return locale code en-US => en_US", function () {
     should(function () {
       i18n.localeFrom('en-US').should.eql('en_US');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("localeFrom() should return locale code en_US => en_US", function () {
     should(function () {
       i18n.localeFrom('en_US').should.eql('en_US');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("i18n.gettext('_Hello_World_', 'en_US') should return Hello World", function () {
     should(function () {
       i18n.gettext('_Hello_World_', 'en_US').should.eql('Hello World');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("i18n.gettext('_Hello_World_', 'en-US') should return Hello World", function () {
     should(function () {
       i18n.gettext('_Hello_World_', 'en-US').should.eql('Hello World');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("i18n.gettext('_Hello_', 'en-US') should return _Hello_", function () {
     should(function () {
       i18n.gettext('_Hello_', 'en-US').should.eql('_Hello_');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("languageNameFor('en-US') and languageNameFor('th-TH') should return native language name", function () {
     should(function () {
       i18n.languageNameFor('en-US').should.eql('English (US)');
-      i18n.languageNameFor('th-TH').should.eql('ภาษาไทย');
-    }).not.throw ();
+      i18n.languageNameFor('th-TH').should.eql('ภาษาไทย (ประเทศไทย)');
+    }).not.throw();
   });
 
   it("languageEnglishName('en-US') and languageEnglishName('th-TH') should return English language name", function () {
     should(function () {
       i18n.languageEnglishName('en-US').should.eql('English (US)');
-      i18n.languageEnglishName('th-TH').should.eql('Thai');
-    }).not.throw ();
+      i18n.languageEnglishName('th-TH').should.eql('Thai (Thailand)');
+    }).not.throw();
   });
 
   it("langToMomentJSLang('en-US') and langToMomentJSLang('th-TH') should return moment language code 'en-US' => 'en'", function () {
     should(function () {
       i18n.langToMomentJSLang('en-US').should.eql('en');
       i18n.langToMomentJSLang('th-TH').should.eql('th');
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("addLocaleObject({ 'en-US': { keys:'somevalue'}}, cb)", function () {
@@ -157,25 +292,25 @@ describe("API Tests", function () {
           i18n.getStrings("en-US").should.have.property('myName');
         }
       });
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("getOtherLangPrefs([ { lang: 'th', quality: 1 }, { lang: 'en', quality: 0.8 }, { lang: 'es', quality: 0.6 } ]) should return ['en', 'es']", function () {
     should(function () {
       i18n.getOtherLangPrefs([ { lang: 'th', quality: 1 }, { lang: 'en', quality: 0.8 }, { lang: 'es', quality: 0.6 } ]).should.eql(['en', 'es']);
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("getAlternateLangSupport(['th', 'en-CA', 'es', 'fr', 'ar'], ['en-US', 'en-CA', 'th']) should return ['th', 'en-CA']", function () {
     should(function () {
       i18n.getAlternateLangSupport(['th', 'en-CA', 'es', 'fr', 'ar'], ['en-US', 'en-CA', 'th']).should.eql(['th', 'en-CA']);
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("getAllLocaleCodes() should return object list of all known locales", function () {
     should(function () {
       i18n.getAllLocaleCodes().should.be.an.instanceof(Object).and.not.empty;
-    }).not.throw ();
+    }).not.throw();
   });
 
   it("readLangDir(pathToDir, langList) should return a clean list of supported_languages", function () {
@@ -188,7 +323,7 @@ describe("API Tests", function () {
         list.should.eql(['en-US', 'en-CA']);
         fs.unlinkSync(pathToDsStore);
       });
-    }).not.throw ();
+    }).not.throw();
   });
 
 });
