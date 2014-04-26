@@ -425,8 +425,10 @@ exports.middleware = function(options) {
   Object.keys(options.mappings).forEach(function(dynamicLang) {
     var mapping = options.mappings[dynamicLang];
     var locale = localeFrom(mapping);
-    if (!translations[locale] && warnings) {
-      console.error('Unknown language mapping [%s] -> [%s], skipping.', dynamicLang, mapping);
+    if (!translations[locale]) {
+      if (warnings) {
+        console.error('Unknown language mapping [%s] -> [%s], skipping.', dynamicLang, mapping);
+      }
       return;
     }
     translations[dynamicLang] = translations[locale];
