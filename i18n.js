@@ -485,7 +485,7 @@ exports.middleware = function(options) {
         lang = bestLanguage(langs, listSupportedLang, default_lang),
         locale,
         localeInfo = {},
-        locals = {},
+        locals = resp.locals,
         gt;
 
     lang = substituteMapping(languageFrom(lang));
@@ -537,9 +537,6 @@ exports.middleware = function(options) {
     }
     locals.gettext = gt;
     req.gettext = gt;
-
-    // resp.locals(string, value) doesn't seem to work with EJS
-    resp.locals(locals);
 
     next();
   };
