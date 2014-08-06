@@ -300,6 +300,49 @@ exports.stringsRoute = function(defaultLang) {
   };
 };
 
+/**
+ * A development route servers can use to expose strings for a given lang.
+ * This route allows for a set of alternative path/files from which to load
+ * locale data, and will load the data anew each time the function is called,
+ * to allow a client-side reload to get updated string data.
+ *
+ *   app.get( "/strings/:lang?", i18n.devStringsRoute( "en-US", ["public/alt", ..., "extensions.json"] ) );
+ */
+exports.devStringsRoute = function(defaultLang, alternativePaths) {
+  defaultLang = defaultLang || default_lang;
+
+  // this is used as persistent data, so no modification after binding should be possible.
+  alternativePaths = alternativePaths.slice();
+  if (typeof alternativePaths === "string") {
+    alternativePaths = [alternativePaths];
+  }
+
+  // this function will pack all the .json files we should load up into one jsonp response.
+  return function(req, res) {
+    var lang = req.params.lang || req.localeInfo.lang || defaultLang;
+
+    var aggregate = {};
+    alternativePaths.forEach(function(alternativePath) {
+      // if .json, load that file. If not .json, treat as directory path
+      // and find its locale/lang.json file entry for loading.
+      var newpath = alternativePath;
+      if(newpath.indexOf(".json") === -1) {
+        newpath = path.join(newpath, "locale", lang + ".json");
+      }
+      var data = fs.readFileSync(newpath);
+      try {
+        var obj = JSON.parse(data);
+        Object.keys(obj).forEach(function(key) {
+          aggregate[key] = obj[key];
+        });
+      } catch (e) { console.error("could not parse data from ["+newpath+"] as JSON."); }
+    });
+    aggregate.__build__date__ = Date.now();
+
+    res.jsonp( aggregate );
+  };
+};
+
 // Given  [ { lang: 'th', quality: 1 }, { lang: 'en', quality: 0.8 }, { lang: 'es', quality: 0.6 } ]
 // We will remove first element and return next preferred languages in array format ['en', 'es']
 function getOtherLangPrefs(languages) {
