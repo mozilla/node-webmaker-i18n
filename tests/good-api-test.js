@@ -326,4 +326,21 @@ describe("API Tests", function () {
     }).not.throw();
   });
 
+  // strict vs. non-strict testing
+  (function() {
+    var sid = "key/with/empty/string";
+
+    it("i18n.gettext('"+sid+"', 'en_US' ) should return '"+sid+"'", function () {
+      should(function () {
+        i18n.gettext(sid, 'en_US').should.eql(sid);
+      }).not.throw();
+    });
+
+    it("i18n.gettext('"+sid+"', 'en_US', { strict: true }) should return an empty string", function () {
+      should(function () {
+        i18n.gettext(sid, 'en_US', { strict: true }).should.eql("");
+      }).not.throw();
+    });
+  }());
+
 });

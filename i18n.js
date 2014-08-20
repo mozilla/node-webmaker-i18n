@@ -17,22 +17,37 @@ var BIDI_RTL_LANGS = [ "ar", "ar_SA", "fa", "fa_IR", "he", "he_IL", "nqo", "ur",
     listOfLanguages,
     warnings;
 
-function gettext(sid, locale) {
+/**
+ * Perform a locale string lookup. The default behavious is to treat
+ * any missing or empty locale string as a not-localised entry, and
+ * will return the original key as being the localised target string.
+ *
+ * sid - The key used for the lookup
+ * locale - The locale dictionary to look in
+ * options - Optional object to control lookup behavior:
+ *
+ *   .strict - Empty locale strings count as genuine localisation,
+ *             and missing locale strings will return an empty string
+ *             rather than the original lookup key.
+ */
+function gettext(sid, locale, options) {
+  options = options || {};
+
   var localeTranslation = translations[localeFrom(locale)][sid],
-    defaultLocaleTranslation = translations[default_locale][sid];
+      defaultLocaleTranslation = translations[default_locale][sid];
 
   if (localeTranslation) {
-    if (localeTranslation.message) {
+    if (options.strict? (typeof localeTranslation.message === "string") : !!localeTranslation.message) {
       return localeTranslation.message;
     }
     return localeTranslation;
   } else if (defaultLocaleTranslation) {
-    if (defaultLocaleTranslation.message) {
+    if (options.strict? (typeof defaultLocaleTranslation.message === "string") : !!defaultLocaleTranslation.message) {
       return defaultLocaleTranslation.message
     }
     return defaultLocaleTranslation;
   }
-  return sid;
+  return options.strict? "" : sid;
 }
 
 function qualityCmp(a, b) {
@@ -260,7 +275,7 @@ exports.addLocaleObject = function(object, callback) {
 /**
  * Returns a copy of the translated strings for the given language.
  **/
-function getStrings(lang) {
+function getStrings(lang, options) {
   var locale = localeFrom(lang),
       strings = {};
   if (!translations[locale]) {
@@ -272,7 +287,7 @@ function getStrings(lang) {
   // In order to get all strings (including those that exist in the default
   // lang but not a translation), we use the keys from the default lang.
   Object.keys(translations[default_locale]).forEach(function(key) {
-    strings[key] = gettext(key, locale);
+    strings[key] = gettext(key, locale, options);
   });
   return strings;
 }
@@ -293,10 +308,10 @@ exports.gettext = gettext;
  *
  *   app.get( "/strings/:lang?", i18n.stringsRoute( "en-US" ) );
  */
-exports.stringsRoute = function(defaultLang) {
+exports.stringsRoute = function(defaultLang, options) {
   defaultLang = defaultLang || default_lang;
   return function(req, res) {
-    res.jsonp( getStrings( req.params.lang || req.localeInfo.lang || defaultLang ) );
+    res.jsonp( getStrings( req.params.lang || req.localeInfo.lang || defaultLang, options ) );
   };
 };
 
@@ -572,7 +587,7 @@ exports.middleware = function(options) {
 
     if (translations[locale]) {
       gt = function(sid) {
-        return gettext(sid, locale);
+        return gettext(sid, locale, req.localeOptions);
       };
     } else {
       // default lang in a non gettext environment... fake it
