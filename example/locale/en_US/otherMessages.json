@@ -1,4 +1,5 @@
 {
  "someThingCool": "This message coming from another file in the locale directory.",
- "supportMultipleFiles": "We can now support multiple files."
+ "supportMultipleFiles": "We can now support multiple files.",
+ "key/with/empty/string": ""
 }
