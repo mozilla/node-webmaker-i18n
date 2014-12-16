@@ -33,8 +33,10 @@ var BIDI_RTL_LANGS = [ "ar", "ar_SA", "fa", "fa_IR", "he", "he_IL", "nqo", "ur",
 function gettext(sid, locale, options) {
   options = options || {};
 
-  var localeTranslation = translations[localeFrom(locale)][sid],
-      defaultLocaleTranslation = translations[default_locale][sid];
+  var defaultLocaleTranslation = translations[default_locale][sid];
+  // We are passing a locale that might not exist in the list of supported locales.
+  // In case of an unknown locale we will default to default locale that we support.
+  var localeTranslation = (translations[localeFrom(locale)] && translations[localeFrom(locale)][sid]) || defaultLocaleTranslation;
 
   if (localeTranslation) {
     if (options.strict? (typeof localeTranslation.message === "string") : !!localeTranslation.message) {
