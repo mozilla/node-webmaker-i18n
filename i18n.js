@@ -491,7 +491,7 @@ exports.middleware = function(options) {
       }
       return;
     }
-    translations[dynamicLang] = translations[locale];
+    translations[localeFrom(dynamicLang)] = translations[locale];
     // Extend the language name mappings too, in case we're missing a generic language name.
     langMap[dynamicLang] = langMap[dynamicLang] || langMap[mapping];
     listSupportedLang.push(dynamicLang);

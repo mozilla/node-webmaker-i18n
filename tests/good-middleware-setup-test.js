@@ -53,4 +53,18 @@ describe("with good invocation of the middleware", function (done) {
       i18n.middleware(localOptions);
     }).not.throw ();
   });
+  it("should contain the right locale for the mapped language", function () {
+    should(function () {
+      i18n.middleware({
+        default_lang: 'en-US',
+        supported_languages: ['en-US', 'en-CA'],
+        translation_directory: translationPath,
+        mappings: {
+          'id-ID': 'en-CA'
+        }
+      });
+    }).not.throw ();
+    i18n.getLanguages().should.eql([ 'en-US', 'en-CA', 'id-ID' ]);
+    i18n.getStrings('id-ID')['localized-string'].should.eql('localised (en-CA)');
+  });
 });
