@@ -11,7 +11,7 @@
     "webmaker"
   ],
   "dependencies": {
-    "langmap": "0.0.13",
+    "langmap": "0.0.14",
     "lodash": "2.2.1"
   },
   "devDependencies": {
