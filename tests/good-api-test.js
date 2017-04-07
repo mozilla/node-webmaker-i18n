@@ -264,17 +264,17 @@ describe("API Tests", function () {
     }).not.throw();
   });
 
-  it("languageNameFor('en-US') and languageNameFor('th-TH') should return native language name", function () {
+  it("languageNameFor('en-US') and languageNameFor('th') should return native language name", function () {
     should(function () {
       i18n.languageNameFor('en-US').should.eql('English (US)');
-      i18n.languageNameFor('th-TH').should.eql('ภาษาไทย (ประเทศไทย)');
+      i18n.languageNameFor('th').should.eql('ไทย');
     }).not.throw();
   });
 
-  it("languageEnglishName('en-US') and languageEnglishName('th-TH') should return English language name", function () {
+  it("languageEnglishName('en-US') and languageEnglishName('th') should return English language name", function () {
     should(function () {
       i18n.languageEnglishName('en-US').should.eql('English (US)');
-      i18n.languageEnglishName('th-TH').should.eql('Thai (Thailand)');
+      i18n.languageEnglishName('th').should.eql('Thai');
     }).not.throw();
   });
 
