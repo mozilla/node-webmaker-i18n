@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 var fs = require('fs'),
-    langMap = require("langmap"),
+    languages = require("./languages.json"),
     _ = require("lodash"),
     momentLang = require("./momentLang"),
     path = require('path'),
@@ -160,7 +160,7 @@ function localeFrom(language) {
  **/
 function languageNameFor(locale) {
   locale = languageFrom(locale);
-  return langMap[locale] ? langMap[locale]["nativeName"] : "Unknown";
+  return languages[locale] ? languages[locale]["native"] : "Unknown";
 }
 
 /**
@@ -168,7 +168,7 @@ function languageNameFor(locale) {
  **/
 function languageEnglishName(locale) {
   locale = languageFrom(locale);
-  return langMap[locale] ? langMap[locale]["englishName"] : "Unknown";
+  return languages[locale] ? languages[locale]["English"] : "Unknown";
 }
 
 /**
@@ -300,7 +300,7 @@ exports.langToMomentJSLang = langToMomentJSLang;
 exports.languageEnglishName = languageEnglishName;
 exports.languageNameFor = languageNameFor;
 exports.readLangDir = readLangDir;
-exports.getAllLocaleCodes = function() { return langMap; };
+exports.getAllLocaleCodes = function() { return languages; };
 exports.getOtherLangPrefs = getOtherLangPrefs;
 exports.getAlternateLangSupport = getAlternateLangSupport;
 exports.gettext = gettext;
@@ -493,7 +493,7 @@ exports.middleware = function(options) {
     }
     translations[localeFrom(dynamicLang)] = translations[locale];
     // Extend the language name mappings too, in case we're missing a generic language name.
-    langMap[dynamicLang] = langMap[dynamicLang] || langMap[mapping];
+    languages[dynamicLang] = languages[dynamicLang] || languages[mapping];
     listSupportedLang.push(dynamicLang);
   });
 
