@@ -140,6 +140,7 @@
 
           if (xhr.status !== 200) {
             console.error("Localized Error: HTTP error " + xhr.status);
+            ready({});
             return;
           }
 
@@ -147,6 +148,7 @@
             ready(JSON.parse(this.responseText));
           } catch (err) {
             console.error("Localized Error: " + err);
+            ready({});
           }
         };
         xhr.send(null);
